@@ -18,40 +18,39 @@ export const Heading = () => {
                     <Spinner size='lg' />
                 </div>
             )}
-            {isAuthenticated && !isLoading && (
-                <Button asChild>
-                    <Link href='/documents'>
-                        Create
-                        <ArrowRight className="h-4 w-4 ml-2" />
-                    </Link>
-                </Button>
-            )}
-            {!isAuthenticated && !isLoading && (
-                <Card className="max-w-[500px]">
-                    <CardHeader>
-                        <CardTitle>Mood2Palette</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-xl font-bold light:text-slate-800">Generate your ideal color palette</p>
-                        <p className="text-md font-normal light:text-slate-800 mt-3">
-                        ColorMagic is a color palette generator with AI.
-                        Generate colors from keyword for image of color you enter.
-                        </p>
-                    </CardContent>
-                      <CardFooter className="flex justify-center">
-                        <Button className="w-full">
-                            Create Free
-                            <ArrowRight className="h-4 w-4 ml-2" />
+            <Card className="max-w-[500px]">
+                <CardHeader>
+                    <CardTitle>Mood2Palette</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-xl font-bold light:text-slate-800">Generate your ideal color palette</p>
+                    <p className="text-md font-normal light:text-slate-800 mt-3">
+                    ColorMagic is a color palette generator with AI.
+                    Generate colors from keyword for image of color you enter.
+                    </p>
+                </CardContent>
+                    <CardFooter className="flex justify-between">
+                    <Link
+                        className="w-full"
+                        href="/generate"
+                    >
+                        <Button className="w-full mr-2">
+                            Generate
                         </Button>
-                      </CardFooter>
-                </Card>
-                // <SignInButton mode="modal">
-                //     <Button>
-                //         Create Free
-                //         <ArrowRight className="h-4 w-4 ml-2" />
-                //     </Button>
-                // </SignInButton>
-            )}
+                        </Link>
+                    <Link
+                        className="w-full"
+                        href="/explore"
+                    >
+                        <Button 
+                            variant="secondary"
+                            className="w-full ml-2 border-2 border-solid border-black hover:bg-black hover:text-white hover:transition-all hover:duration-500 hover:ease-in-out"
+                        >
+                            Explore
+                        </Button>
+                    </Link>
+                    </CardFooter>
+            </Card>
         </div>
     );
 }
