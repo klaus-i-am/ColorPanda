@@ -4,14 +4,14 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { useCompletion } from 'ai/react';
+import { useCompletion, useChat } from 'ai/react';
 import { Input } from "@/components/ui/input";
-
+import { useState } from "react";
 
 const TrialPage = () => {
-    const { completion, input, handleInputChange, handleSubmit, error } =
-    useCompletion();
+    const { messages, input, data, handleInputChange, handleSubmit } = useChat();
 
+    console.log(data);
     return ( 
         <div className="h-full flex flex-col items-center">
             <Card className="min-w-[400px]">
@@ -20,15 +20,19 @@ const TrialPage = () => {
                     <CardTitle>Generate Palette</CardTitle>
                 </CardHeader>
                 <CardContent className="text-wrap">
-                        <Input
+                    <Input
                         className="w-full max-w-md p-2 mb-8"
                         value={input}
                         placeholder="Write a mood..."
                         onChange={handleInputChange}
-                        />
+                    />
                     <p className="w-full text-md font-normal mt-3 text-wrap">
-                        {completion}
-                    </p>
+                    {messages.map(m => (
+                        <div key={m.id}>
+                        {m.content}
+                        </div>
+                    ))}
+                 </p>
                 </CardContent>
                 <CardFooter>
                 <Button type="submit">

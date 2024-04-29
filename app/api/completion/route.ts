@@ -15,17 +15,19 @@ export async function POST(req: Request) {
   // Ask OpenAI for a streaming completion given the prompt
   const response = await openai.completions.create({
     model: 'gpt-3.5-turbo-instruct',
-    max_tokens: 256,
     stream: true,
-    prompt: `give a color palette in the form of an javacript object array in based on the following \n\n${prompt}\n
-    const palette = [{HTML color name: san juan, hex: #30475e, rgb(48,71,94)},{HTML color name: san juan, hex: #30475e, rgb(48,71,94)}]\n
-    ONLY GIVE THE JAVASCRIPT OBJECT ARRAY\n
-    `
+    prompt: `Given the mood "${prompt}", generate a palette of four colors. Each color should be described with its HTML color name, hex code, and RGB values. Output the palette as a JSON object with each color's details in the following format: [{ "HTML_Color_Name": "", "Hex": "", "RGB": "" }]. Only return the JSON object.NO JSON OBJECT NAME`,
+    max_tokens: 256,
+    temperature: 0,
+    top_p: 1,
+    frequency_penalty: 1,
+    presence_penalty: 1,
   });
  
   // Convert the response into a friendly text-stream
   const stream = OpenAIStream(response);
- 
+
+
   // Respond with the stream
   return new StreamingTextResponse(stream);
 }
