@@ -4,14 +4,15 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { useCompletion, useChat } from 'ai/react';
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { useCompletion, useChat } from 'ai/react';
+import { json } from "stream/consumers";
 
 const TrialPage = () => {
-    const { messages, input, data, handleInputChange, handleSubmit } = useChat();
 
-    console.log(data);
+    const { messages, input, handleInputChange, handleSubmit } = useChat();
+
     return ( 
         <div className="h-full flex flex-col items-center">
             <Card className="min-w-[400px]">
@@ -27,16 +28,21 @@ const TrialPage = () => {
                         onChange={handleInputChange}
                     />
                     <p className="w-full text-md font-normal mt-3 text-wrap">
-                    {messages.map(m => (
+                    {/* {messages.map(m => (
                         <div key={m.id}>
+                            
                         {m.content}
+                        </div>
+                    ))} */}
+                    {messages.map((m, index) => (
+                        <div key={index}>
+                            <p className="">{m.content}</p>
                         </div>
                     ))}
                  </p>
                 </CardContent>
                 <CardFooter>
                 <Button type="submit">
-                        <PlusCircle className="h-4 w-4 mr-2" />
                         Generate  
                     </Button>
                     <Button
