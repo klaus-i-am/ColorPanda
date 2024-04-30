@@ -5,13 +5,31 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCompletion, useChat } from 'ai/react';
-import { json } from "stream/consumers";
 
 const TrialPage = () => {
+    const [obj, setObj] = useState(null);
 
     const { messages, input, handleInputChange, handleSubmit } = useChat();
+
+    useEffect(() => {
+        const content = messages[1]?.content;
+        if (typeof content === 'string' && isValidJson(content)) {
+            setObj(JSON.parse(content));
+        }
+    }, [messages]);
+    
+    function isValidJson(json: string) {
+        try {
+            JSON.parse(json);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
+    console.log(obj);
 
     return ( 
         <div className="h-full flex flex-col items-center">
@@ -28,18 +46,20 @@ const TrialPage = () => {
                         onChange={handleInputChange}
                     />
                     <p className="w-full text-md font-normal mt-3 text-wrap">
-                    {/* {messages.map(m => (
-                        <div key={m.id}>
-                            
-                        {m.content}
-                        </div>
-                    ))} */}
-                    {messages.map((m, index) => (
-                        <div key={index}>
-                            <p className="">{m.content}</p>
-                        </div>
-                    ))}
-                 </p>
+                        {(obj && typeof obj === 'object') && (
+                            <div>
+                                <p style={{color: (obj as any).Hex }}>{(obj as any).HTML_Color_Name}</p>
+                                <p>{(obj as any).Hex}</p>
+                                <p>{(obj as any).RGB}</p>
+                            </div>
+                        )}
+                        {/* {messages.map(m => (
+                            <div key={m.id}>
+                                
+                            {m.content}
+                            </div>
+                        ))} */}
+                    </p>
                 </CardContent>
                 <CardFooter>
                 <Button type="submit">

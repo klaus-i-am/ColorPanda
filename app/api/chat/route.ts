@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     messages: [
       {
         role: 'user',
-        content:  `Given the mood "${prompt}", generate a palette of four colors. Each color should be described with its HTML color name, hex code, and RGB values. Output the palette as a 4 array JSON object with each color's details in the following format: [{ "HTML_Color_Name": "", "Hex": "", "RGB": "" }]. Only return the JSON object.NO JSON OBJECT NAME. No outside object words.`,
+        content:  `Given the mood "${prompt}", generate a palette of four colors. Each color should be described with its HTML color name, hex code, and RGB values. Output the palette as a 4 array JSON object with each color's details in the following format: [{ "HTML_Color_Name": "<HTML Color Name>", "Hex": "<Hex values>", "RGB": "<RGB values>" }]. Only return the JSON object.NO JSON OBJECT NAME. No outside object words.`,
       },
     ],
     response_format: { "type": "json_object" },
@@ -28,8 +28,6 @@ export async function POST(req: Request) {
  
   // Convert the response into a friendly text-stream
   const stream = OpenAIStream(response);
-
-  
 
   // Respond with the stream
   return new StreamingTextResponse(stream);
