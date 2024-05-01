@@ -1,3 +1,4 @@
+
 import OpenAI from 'openai';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
  
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
     model: 'gpt-3.5-turbo',
     max_tokens: 1024,
     stream: true,
-    temperature: 0.9,
+    temperature: 0.3,
     top_p: 1,
     response_format: { "type": "json_object" },
     messages: [
@@ -27,45 +28,33 @@ export async function POST(req: Request) {
       },
       {
         role: 'system',
-        content: `[
-          {
-            "HTML_Color_Name": "<HTML Color Name>",
-            "Hex": "<Hex color code>",
-            "RGB": "<RGB values>"
-          },
-          {
-            "HTML_Color_Name": "<HTML Color Name>",
-            "Hex": "<Hex color code>",
-            "RGB": "<RGB values>"
-          },
-          {
-            "HTML_Color_Name": "<HTML Color Name>",
-            "Hex": "<Hex color code>",
-            "RGB": "<RGB values>"
-          },
-          {
-            "HTML_Color_Name": "<HTML Color Name>",
-            "Hex": "<Hex color code>",
-            "RGB": "<RGB values>"
-          }
-        ]`,
-      },
-      {
-        role: 'system',
-        content:  `Given the mood "${prompt}", generate four different colors. Each color should be described with its HTML color name, hex code, and RGB values. Output the palette as a ((four)) JSON objects with each color's details in the following format: 
+        content:  `Given the mood "${prompt}", generate four arrays different colors in an arry \n
         {
-          "HTML_Color_Name": "", 
-          "Hex": "", 
-          "RGB": "",
-        } .Only return the JSON object.NO JSON OBJECT NAME\n
-        It MUST be a TOTAL of FOUR OBJECTS in ONE array.`,
+          color#1: { "HTML_Color_Name": "", 
+            "Hex": "", 
+            "RGB": "",
+        },
+          color#2 { "HTML_Color_Name": "", 
+            "Hex": "", 
+            "RGB": "",
+        },
+          color#3: { "HTML_Color_Name": "", 
+            "Hex": "", 
+            "RGB": "",
+        },
+          color#3: { "HTML_Color_Name": "", 
+            "Hex": "", 
+            "RGB": "",
+        },
+          
+      }. Each color should be described with its HTML color name, hex code, and RGB values. Output the palette as a four JSON objects in an ARRAY.\n`,
       }
     ],
   });
  
   // Convert the response into a friendly text-stream
   const stream = OpenAIStream(response);
-  console.log(`OBJECT: ${response}`);
+  
   // Respond with the stream
   return new StreamingTextResponse(stream);
 }

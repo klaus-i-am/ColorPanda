@@ -1,6 +1,5 @@
 'use client'
 
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,18 +8,26 @@ import { useState, useEffect, FormEvent } from "react";
 import { useCompletion, useChat } from 'ai/react';
 
 const TrialPage = () => {
+    interface Color {
+        HTML_Color_Name: string;
+        Hex: string;
+        RGB: string;
+    }
+
+    
     const { messages, input, handleInputChange,  handleSubmit } = useChat();
-    const [obj, setObj] = useState({});
+    const [obj, setObj] = useState<Color[]>([]);
     
     console.log(`Obj State: ${JSON.stringify(obj)}`);
-
+    console.log(`MESSAGES: ${messages[1]?.content}`);
     useEffect(() => {
-        const content = messages[1]?.content;
-        if (typeof content === 'string' && isValidJson(content)) {
-            console.log(`JSON: ${content}`)
-            setObj(JSON.parse(content));
-        }
-    }, [messages, obj]);
+        const validJsonMessages = messages.filter(message => typeof message.content === 'string' && isValidJson(message.content));
+        const parsedMessages = validJsonMessages.map(message => {
+            const messageObj = JSON.parse(message.content);
+            return messageObj.colors.map((colorObj: any) => Object.values(colorObj)[0] as Color);
+        });
+        setObj(parsedMessages.flat());
+    }, [messages]);
     
     function isValidJson(json: string) {
         try {
@@ -30,8 +37,6 @@ const TrialPage = () => {
             return false;
         }
     }
-
-    console.log(obj);
 
     return ( 
         <div className="h-full flex flex-col items-center">
@@ -48,13 +53,11 @@ const TrialPage = () => {
                         onChange={handleInputChange}
                     />
                     <p className="w-full text-md font-normal mt-3 text-wrap">
-                    {/* {obj && Object.entries(obj).map(([key, value]) => (
-                        <div key={key}>
-                            <p style={{color: (value as any).Hex }}>HTML Color Name: {(value as any).HTML_Color_Name}</p>
-                            <p>Hex: {(value as any).Hex}</p>
-                            <p style={{color: (obj as any).RGB }}>RGB: {(value as any).RGB}</p>
-                        </div>
-                    ))} */}
+                        {messages.map((message, index) => {
+                            return (
+                                <span key={index}>{message.content}</span>
+                            );
+                        })}
                     </p>
                 </CardContent>
                 <CardFooter>
@@ -74,13 +77,20 @@ const TrialPage = () => {
                 </form>
             </Card>
             <div className="w-[80%] border border-solid border-red-500 flex justify-start">
-                {(obj && typeof obj === 'object') && (
+            {obj.map((color, index) => (
+                <div key={index} className="w-[200px] h-[300px] rounded-lg p-6" style={{ backgroundColor: color.Hex}}>
+                    <p>{color.HTML_Color_Name}</p>
+                    <p>{color.Hex}</p>
+                    <p>{color.RGB}</p>
+                </div>
+            ))}
+                {/* {(obj && typeof obj === 'object') && (
                     <div className="w-[200px] h-[300px] rounded-lg p-6" style={{ backgroundColor: (obj as any).Hex}}>
                         <p>{(obj as any).HTML_Color_Name}</p>
                         <p>{(obj as any).Hex}</p>
                         <p>{(obj as any).RGB}</p>
                     </div>
-                )}
+                )} */}
             </div>
         </div>
     );
