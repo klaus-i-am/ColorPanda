@@ -76,31 +76,87 @@ const TrialPage = () => {
           </CardFooter>
         </form>
       </Card>
-      {/* Display random color palette until user generates a custom palette */}
-
-      <div className="w-[80%] mt-5 py-4 border border-solid border-red-500 flex flex-col justify-center items-center">
-        {/* Display loading animation here: displays until result is finished */}
-            {/* User's Prompt */}
-            <h2 className="text-lg font-bold my-4">{input}</h2>
-        <div className="flex flex-row justify-center items-center">
-            {/* Map palette color object */}
-            {palette.map((color, index) => (
-            <div
-                key={index}
-                className="w-[200px] h-[200px] rounded-md mx-5 p-6 hover:scale-105 hover:cursor-pointer"
-                style={{ backgroundColor: color.Hex }}
-            >
-                <span className="bg-slate-50/45">
-                    <p>{color.HTML_Color_Name}</p>
-                    <p>{color.Hex}</p>
-                    <p>{color.RGB}</p>
-                </span>
-            </div>
-            ))}
+      {palette == false && (
+         <>
+         {/* Display random color palette until user generates a custom palette */}
+        <div className="w-[80%] mt-5 py-4 border border-solid border-red-500 flex flex-row justify-center items-center">
+            {/* Display loading animation here: displays until result is finished */}
+                {/* User's Prompt */}
+                <h2 className="text-lg font-bold my-4">{input}</h2>
+                <div className="flex flex-col justify-center items-center">
+                    <h2 className="text-lg font-bold my-4">Redrum</h2>
+                    <div className="flex flex-row justify-center items-center">
+                        {/* Map palette color object */}
+                        <div
+                            className="w-[200px] h-[200px] rounded-md mx-5 p-6 hover:scale-105 hover:cursor-pointer"
+                            style={{ backgroundColor: '#232343' }}
+                        >
+                            <span className="bg-slate-50/45">
+                                <p>Wine</p>
+                                <p>#232343</p>
+                                <p>RGB(12,12,12)</p>
+                            </span>
+                        </div>
+                        <div
+                            className="w-[200px] h-[200px] rounded-md mx-5 p-6 hover:scale-105 hover:cursor-pointer"
+                            style={{ backgroundColor: '#232343' }}
+                        >
+                            <span className="bg-slate-50/45">
+                                <p>Wine</p>
+                                <p>#232343</p>
+                                <p>RGB(12,12,12)</p>
+                            </span>
+                        </div>
+                        <div
+                            className="w-[200px] h-[200px] rounded-md mx-5 p-6 hover:scale-105 hover:cursor-pointer"
+                            style={{ backgroundColor: '#232343' }}
+                        >
+                            <span className="bg-slate-50/45">
+                                <p>Wine</p>
+                                <p>#232343</p>
+                                <p>RGB(12,12,12)</p>
+                            </span>
+                        </div>
+                        <div
+                            className="w-[200px] h-[200px] rounded-md mx-5 p-6 hover:scale-105 hover:cursor-pointer"
+                            style={{ backgroundColor: '#232343' }}
+                        >
+                            <span className="bg-slate-50/45">
+                                <p>Wine</p>
+                                <p>#232343</p>
+                                <p>RGB(12,12,12)</p>
+                            </span>
+                        </div>
+                    </div>
+                </div>
         </div>
-      </div>
-
-      
+         </>
+      )}
+      {palette && (
+        <>
+            {/* User generated content */}
+            <div className="w-[80%] mt-5 py-4 border border-solid border-red-500 flex flex-col justify-center items-center">
+                    {/* User's Prompt */}
+                    <h2 className="text-lg font-bold my-4">{input}</h2>
+                <div className="flex flex-row justify-center items-center">
+                    {/* Map palette color object */}
+                    {palette.map((color, index) => (
+                    <div
+                        key={index}
+                        className="w-[200px] h-[200px] rounded-md mx-5 p-6 hover:scale-105 hover:cursor-pointer"
+                        style={{ backgroundColor: color.Hex }}
+                    >
+                        <span className="bg-slate-50/45">
+                            <p>{color.HTML_Color_Name}</p>
+                            <p>{color.Hex}</p>
+                            <p>{color.RGB}</p>
+                        </span>
+                    </div>
+                    ))}
+                </div>
+            </div>
+        </>
+      )}
     </div>
   );
 };
