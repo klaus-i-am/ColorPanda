@@ -43,6 +43,7 @@ const TrialPage = () => {
         const colorsArray = Object.values(data.palette); // Extract values from the object
         console.log('Extracted palette colors:', colorsArray);
         setPalette(colorsArray);  // Set the colors array from the object values
+        console.log("Prompt: ", input);
       } else {
         console.error('Invalid palette data:', data.palette);
         setError("Invalid palette data returned from API.");
@@ -55,7 +56,7 @@ const TrialPage = () => {
 
   return (
     <div className="h-full flex flex-col items-center">
-      <Card className="min-w-[400px]">
+      <Card className="min-w-[400px] mt-[40px]">
         <form onSubmit={handleSubmit}>
           <CardHeader>
             <CardTitle>Generate Palette</CardTitle>
@@ -67,12 +68,7 @@ const TrialPage = () => {
               placeholder="Write a mood..."
               onChange={(e) => setInput(e.target.value)}
             />
-            <p className="w-full text-md font-normal mt-3 text-wrap">
-              {/* Display the color names */}
-              {palette.map((color, index) => (
-                <span key={index}>{color.HTML_Color_Name}, </span>
-              ))}
-            </p>
+            
             {error && <p className="text-red-500">{error}</p>}
           </CardContent>
           <CardFooter>
@@ -80,21 +76,31 @@ const TrialPage = () => {
           </CardFooter>
         </form>
       </Card>
+      {/* Display random color palette until user generates a custom palette */}
 
-      {/* Display the color palette */}
-      <div className="w-[80%] py-4 border border-solid border-red-500 flex justify-center items-center">
-        {palette.map((color, index) => (
-          <div
-            key={index}
-            className="w-[200px] h-[200px] rounded-md mx-5 p-6 hover:scale-105 hover:cursor-pointer"
-            style={{ backgroundColor: color.Hex }}
-          >
-            <p>{color.HTML_Color_Name}</p>
-            <p>{color.Hex}</p>
-            <p>{color.RGB}</p>
-          </div>
-        ))}
+      <div className="w-[80%] mt-5 py-4 border border-solid border-red-500 flex flex-col justify-center items-center">
+        {/* Display loading animation here: displays until result is finished */}
+            {/* User's Prompt */}
+            <h2 className="text-lg font-bold my-4">{input}</h2>
+        <div className="flex flex-row justify-center items-center">
+            {/* Map palette color object */}
+            {palette.map((color, index) => (
+            <div
+                key={index}
+                className="w-[200px] h-[200px] rounded-md mx-5 p-6 hover:scale-105 hover:cursor-pointer"
+                style={{ backgroundColor: color.Hex }}
+            >
+                <span className="bg-slate-50/45">
+                    <p>{color.HTML_Color_Name}</p>
+                    <p>{color.Hex}</p>
+                    <p>{color.RGB}</p>
+                </span>
+            </div>
+            ))}
+        </div>
       </div>
+
+      
     </div>
   );
 };

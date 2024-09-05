@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Poppins } from "next/font/google";
 
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const font = Poppins({
     subsets: ["latin"],
@@ -25,9 +26,7 @@ export const Logo = () => {
                 alt="logo"
                 className="hidden dark:block"
             />
-            <p className={cn("font-semibold", font.className)}>
-                Mood2Palette
-            </p>
+               <Link className={cn("font-semibold", font.className)} href="/">Mood2Palette</Link>
         </div>
     );
 }    
