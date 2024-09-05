@@ -28,7 +28,7 @@ export async function POST(req: Request) {
       },
       {
         role: 'system',
-        content:  `Given the mood "${prompt}", generate four arrays different colors in an arry \n
+        content: `You are an AI that generates color palettes based on mood descriptions .\n
         {
           color#1: { "HTML_Color_Name": "", 
             "Hex": "", 
