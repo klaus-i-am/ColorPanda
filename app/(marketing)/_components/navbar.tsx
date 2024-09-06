@@ -29,14 +29,15 @@ export const Navbar = () => {
                             <Button
                                 variant="ghost"
                                 size="sm"
-                                className="rounded-sm"
+                                className="rounded-sm font-bold font-header"
                             >
-                                Sign in
+                               Log in
                             </Button>
                         </SignInButton>
                         <SignInButton mode="modal">
                             <Button
                                 size="sm"
+                                className="'w-full text-sm font-header font-bold rounded-lg text-white outline-none bg-[#37474f]"
                             >
                                 Join free
                             </Button>
@@ -51,7 +52,7 @@ export const Navbar = () => {
                             asChild
                         >
                             <Link href="/documents">
-                                Enter Jotion
+                                Enter Moody
                             </Link>
                         </Button>
                         <UserButton

@@ -67,7 +67,7 @@ const TrialPage = () => {
             </h1>
                 <span className="my-2 text-lg text-gray-500 font-bold font-header">Enter keywords for image or mood of color</span>
             <Input
-              className="max-w-lg p-7 pl-4 mb-8 bg-gray-200 placeholder:text-slate-400 rounded-lg placeholder:text-lg font-header font-extrabold text-lg focus-visible:ring-0 focus-visible:outline-none text-[rgba(60,66,77,1)]"
+              className="max-w-lg p-7 pl-4 mb-8 bg-gray-200 placeholder:font-header placeholder:font-extrabold placeholder:text-slate-400 rounded-xl placeholder:text-lg font-header font-extrabold text-lg focus-visible:ring-0 focus-visible:outline-none text-[#607d8b]"
               value={input}
               placeholder="Ocean daydreams"
               onChange={(e) => setInput(e.target.value)}
@@ -76,7 +76,7 @@ const TrialPage = () => {
             {/* {error && <p className="text-red-500">{error}</p>} */}
           </div>
           <div className="">
-            <Button type="submit" className='w-full text-xl font-header font-bold py-8 px-8 rounded-lg text-white bg-gray-500 outline-none'>Generate</Button>
+            <Button type="submit" className='w-full text-xl font-header font-bold py-8 px-8 rounded-xl text-white bg-gray-500 outline-none'>Generate</Button>
           </div>
         </form>
       </div>
