@@ -28,14 +28,14 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
       <ConvexClientProvider>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          storageKey="palette-theme"
-        >
-          {children}
-        </ThemeProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            storageKey="palette-theme"
+          >
+            {children}
+          </ThemeProvider>
       </ConvexClientProvider>
       </body>
     </html>

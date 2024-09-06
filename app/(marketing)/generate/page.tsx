@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
+//import { Button, ButtonGroup } from '@chakra-ui/react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -56,31 +57,33 @@ const TrialPage = () => {
 
   return (
     <div className="h-full flex flex-col items-center">
-      <Card className="min-w-[400px] mt-[40px]">
+        {/* generate field */}
+      <div className="min-w-[40%] mt-[40px]">
         <form onSubmit={handleSubmit}>
-          <CardHeader>
-            <CardTitle>Generate Palette</CardTitle>
-          </CardHeader>
-          <CardContent className="text-wrap">
+          <div className="text-wrap text-center flex flex-col justify-center">
+            <h1 className="mt-2 text-2xl font-extrabold font-header text-[rgba(60,66,77,1)]">
+                Generate a new palette
+                <br/> 
+            </h1>
+                <span className="my-2 text-lg text-gray-500 font-bold font-header">Enter keywords for image or mood of color</span>
             <Input
-              className="w-full max-w-md p-2 mb-8"
+              className="max-w-lg p-7 pl-4 mb-8 bg-gray-200 placeholder:text-slate-400 rounded-lg placeholder:text-lg font-header font-extrabold text-lg focus-visible:ring-0 focus-visible:outline-none text-[rgba(60,66,77,1)]"
               value={input}
-              placeholder="Write a mood..."
+              placeholder="Ocean daydreams"
               onChange={(e) => setInput(e.target.value)}
             />
             
-            {error && <p className="text-red-500">{error}</p>}
-          </CardContent>
-          <CardFooter>
-            <Button type="submit">Generate</Button>
-          </CardFooter>
+            {/* {error && <p className="text-red-500">{error}</p>} */}
+          </div>
+          <div className="">
+            <Button type="submit" className='w-full text-xl font-header font-bold py-8 px-8 rounded-lg text-white bg-gray-500 outline-none'>Generate</Button>
+          </div>
         </form>
-      </Card>
+      </div>
       {palette == false && (
          <>
-         {/* Display random color palette until user generates a custom palette */}
+       
         <div className="w-[80%] mt-5 py-4 border border-solid border-red-500 flex flex-row justify-center items-center">
-            {/* Display loading animation here: displays until result is finished */}
                 {/* User's Prompt */}
                 <h2 className="text-lg font-bold my-4">{input}</h2>
                 <div className="flex flex-col justify-center items-center">
