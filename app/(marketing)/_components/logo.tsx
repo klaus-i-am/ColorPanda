@@ -26,7 +26,7 @@ export const Logo = () => {
                 alt="logo"
                 className="hidden dark:block"
             />
-               <Link className={cn("font-semibold", font.className)} href="/">Mood2Palette</Link>
+               <Link className="text-gray-600 font-bold font-header text-2xl" href="/">Mood2Palette</Link>
         </div>
     );
 }    
