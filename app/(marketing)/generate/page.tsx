@@ -18,6 +18,12 @@ const TrialPage = () => {
   const [palette, setPalette] = useState<Color[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [pastPrompts, setPastPrompts] = useState<string[]>([]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.slice(0, 20); // Limit to 20 characters
+    setInput(value);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,6 +53,8 @@ const TrialPage = () => {
         console.log('Extracted palette colors:', colorsArray);
         setPalette(colorsArray);  // Set the colors array from the object values
         console.log("Prompt: ", input);
+        setPastPrompts(prevPrompts => [...prevPrompts, input]); // Save the prompt
+        setInput(''); // Clear the input after successful submission
       } else {
         console.error('Invalid palette data:', data.palette);
         setError("Invalid palette data returned from API.");
@@ -84,8 +92,9 @@ const TrialPage = () => {
                     focus-visible:ring-0 text-[#607d8b]"
                     value={input}
                     placeholder="Ocean daydreams"
-                    onChange={(e) => setInput(e.target.value)}
-                    />
+                    onChange={handleInputChange}
+                    maxLength={20}
+                />
             
             {/* {error && <p className="text-red-500">{error}</p>} */}
           </div>
@@ -195,16 +204,18 @@ const TrialPage = () => {
       {palette && (
         <>
             {/* User generated content */}
-            <div className="w-[80%] mt-5 py-4flex flex-col justify-center items-center">
+            <div className="w-[80%] mt-5 py-4 flex flex-col justify-center items-start border border-red-500 border-solid">
                 {/* User's Prompt */}
-                <h2 className="text-lg font-bold my-4">{input}</h2>
-                <div className="flex flex-row justify-center items-center">
+                {pastPrompts.map((prompt, index) => (
+                    <h2 key={index} className="ml-4 text-2xl font-bold my-4">{prompt}</h2>
+                ))}
+                <div className="flex flex-row justify-center items-stretch">
                     {/* Map palette color object */}
                     {palette.map((color, index) => (
-                        <div key={index} className="flex flex-col justify-center items-center">
+                        <div key={index} className="flex flex-col justify-start items-center w-[180px] mx-2">
                         {/* Map palette color object */}
                         <div
-                            className={`w-[250px] h-[400px] rounded-3xl mx-5 p-6 hover:scale-[.97] transition-all ease-in-out duration-300 hover:cursor-pointer`}
+                            className={`w-full h-[320px] rounded-3xl p-6 hover:scale-[.97] transition-all ease-in-out duration-300 hover:cursor-pointer`}
                             style={{ 
                                 backgroundColor: color.Hex, 
                                 boxShadow: `0px 8px 20px ${hexToRGBA(color.Hex, 0.5)}` 
@@ -212,21 +223,25 @@ const TrialPage = () => {
                         >
                         </div>
                         <div 
-                            className={`w-16 h-16 my-4 border-4 border-solid border-white/30 rounded-full flex items-center justify-center`}
+                            className="w-12 h-12 my-3 border-4 border-solid border-white/30 rounded-full flex items-center justify-center"
                             style={{ backgroundColor: color.Hex }}
                         >
                         </div>
-                       <div className="">
-                        <span className="text-center font-header font-bold bg-slate-50/45">
+                        <div className="w-full text-center px-2">
                             <h2 
-                                className={`font-extrabold font-header text-2xl mb-4`}
+                                className="font-extrabold font-header text-md mb-1 truncate"
                                 style={{ color: color.Hex }}
-                             >{color.HTML_Color_Name
-                             }</h2>
-                            <p className="font-lg font-header mb-2 text-gray-400 hover:bg-slate-100 hover:cursor-pointer rounded-sm">{color.Hex}</p>
-                            <p className="font-lg font-header mb-2 text-gray-400 hover:bg-slate-100 hover:cursor-pointer rounded-sm px-1">{color.RGB}</p>
-                        </span>
-                       </div>
+                                title={color.HTML_Color_Name}
+                            >
+                                {color.HTML_Color_Name}
+                            </h2>
+                            <p className="font-medium font-header text-xs mb-1 text-gray-500 truncate" title={color.Hex}>
+                                {color.Hex}
+                            </p>
+                            <p className="font-medium font-header text-xs mb-1 text-gray-500 truncate" title={color.RGB}>
+                                {color.RGB}
+                            </p>
+                            </div>
                         </div>  
                     ))}
                 </div>

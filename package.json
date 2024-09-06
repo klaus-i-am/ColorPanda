@@ -25,6 +25,7 @@
     "ai": "^3.0.35",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "color": "^4.2.3",
     "convex": "^1.11.2",
     "framer-motion": "^11.5.4",
     "http-streaming-request": "^2.2.0",
@@ -38,6 +39,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@types/color": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
