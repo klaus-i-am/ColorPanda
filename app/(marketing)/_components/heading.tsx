@@ -3,21 +3,13 @@
 import { Spinner } from "@/components/spinner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { SignInButton } from "@clerk/nextjs";
-import { useConvexAuth } from "convex/react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export const Heading = () => {
-    const { isAuthenticated, isLoading } = useConvexAuth();
 
     return (
         <div className="max-w-3xl space-y-4">
-            {isLoading && ( 
-                <div className="w-full flex items-center justify-center">
-                    <Spinner size='lg' />
-                </div>
-            )}
             <Card className="max-w-[500px]">
                 <CardHeader>
                     <CardTitle>Mood2Palette</CardTitle>

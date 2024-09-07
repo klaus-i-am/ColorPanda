@@ -1,13 +1,163 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { Loader2 } from 'lucide-react';
+import { Slider } from "@/components/ui/slider";
+import { Loader2, X } from 'lucide-react';
 import { SparklesIcon } from '@heroicons/react/24/outline';
-import { HeartIcon } from '@heroicons/react/24/outline';
-import { ArrowRightIcon } from '@heroicons/react/24/solid';
-import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
+import { XMarkIcon, HeartIcon, ArrowRightIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
+import Color from 'color';
+import colorNamer from 'color-namer';
+
+// Color Adjustment Modal Component
+interface ColorType {
+  HTML_Color_Name: string;
+  Hex: string;
+  RGB: string;
+}
+
+const Modal = ({ children, onClose }) => {
+  const [isBrowser, setIsBrowser] = useState(false);
+
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
+
+  if (isBrowser) {
+    return ReactDOM.createPortal(
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
+        <div className="flex justify-center bg-white top-28 rounded-xl p-6 w-[60%] max-w-[90%] relative">
+          <div className='w-[70%] max-w-full'>
+            <button
+              onClick={onClose}
+              className="absolute top-2 right-2 m-2 bg-gray-200 p-1 rounded-sm text-gray-400 hover:text-gray-700"
+            >
+              <XMarkIcon className='w-4 h-4 font-bold stroke-2' />
+            </button>
+            {children}
+          </div>
+        </div>
+      </div>,
+      document.body
+    );
+  } else {
+    return null;
+  }
+};
+
+const AdjustAllColorsModal = ({ colors, onClose, onAdjustAll }) => {
+  const [brightness, setBrightness] = useState(0);
+  const [saturation, setSaturation] = useState(0);
+  const [temperature, setTemperature] = useState(0);
+
+  const calculateAdjustedColors = (bright, sat, temp) => {
+    return colors.map(color => {
+      let newColor = Color(color.Hex);
+      
+      newColor = bright > 0 
+        ? newColor.lighten(bright / 100)
+        : newColor.darken(Math.abs(bright) / 100);
+      
+      newColor = sat > 0
+        ? newColor.saturate(sat / 100)
+        : newColor.desaturate(Math.abs(sat) / 100);
+      
+      newColor = newColor.rotate(temp);
+
+      const hexValue = newColor.hex();
+      const rgbValue = newColor.rgb().string();
+      const colorName = colorNamer(hexValue).ntc[0].name;
+
+      return {
+        HTML_Color_Name: colorName,
+        Hex: hexValue,
+        RGB: rgbValue
+      };
+    });
+  };
+
+  useEffect(() => {
+    const newColors = calculateAdjustedColors(brightness, saturation, temperature);
+    onAdjustAll(newColors);
+  }, [brightness, saturation, temperature]);
+
+  const handleSliderChange = (type, value) => {
+    switch(type) {
+      case 'brightness':
+        setBrightness(value);
+        break;
+      case 'saturation':
+        setSaturation(value);
+        break;
+      case 'temperature':
+        setTemperature(value);
+        break;
+    }
+  };
+
+  const resetAdjustments = () => {
+    setBrightness(0);
+    setSaturation(0);
+    setTemperature(0);
+  };
+
+  return (
+    <Modal onClose={onClose}>
+      <h2 className="text-xl text-center font-bold font-header text-slate-800 mb-4">Adjust Colors</h2>
+      <div className="mb-4 mt-10">
+      <label className="mb-2 flex flex-row justify-between font-bold font-header text-slate-400">
+          <span>Darken</span>
+          <span>Brighten</span>
+        </label>
+        <Slider 
+          min={-100} 
+          max={100} 
+          value={[brightness]} 
+          onValueChange={([value]) => handleSliderChange('brightness', value)} 
+        />
+      </div>
+      
+      <div className="mb-4">
+      <label className="mb-2 flex flex-row justify-between font-bold font-header text-slate-400">
+          <span>Dull</span>
+          <span>Vivid</span>
+        </label>
+        <Slider 
+          min={-100} 
+          max={100} 
+          value={[saturation]} 
+          onValueChange={([value]) => handleSliderChange('saturation', value)} 
+        />
+      </div>
+      
+      <div className="mb-4">
+      <label className="mb-2 flex flex-row justify-between font-bold font-header text-slate-400">
+          <span>Cold</span>
+          <span>Warm</span>
+        </label>
+        <Slider 
+          min={-180} 
+          max={180} 
+          value={[temperature]} 
+          onValueChange={([value]) => handleSliderChange('temperature', value)} 
+        />
+      </div>
+
+      {/* <div className="mb-4 flex justify-between">
+        {colors.map((color, index) => (
+          <div key={index} className="w-12 h-12 rounded-full" style={{ backgroundColor: color.Hex }}></div>
+        ))}
+      </div> */}
+
+      <div className="flex justify-center">
+        <Button onClick={resetAdjustments} className='bg-gray-200/50 mt-4 py-6 px-10 font-bold font-header text-slate-700 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300'>Reset to Default</Button>
+      </div>
+    </Modal>
+  );
+};
+
 
 const TrialPage = () => {
   interface Color {
@@ -18,12 +168,15 @@ const TrialPage = () => {
 
   const [input, setInput] = useState('');
   const [palette, setPalette] = useState<Color[]>([]);
+  const [originalPalette, setOriginalPalette] = useState<ColorType[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [savedPrompt, setSavedPrompt] = useState('');
+  const [isAdjustingAll, setIsAdjustingAll] = useState(false);
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.slice(0, 20); // Limit to 20 characters
+    const value = e.target.value.slice(0, 25); // Limit to 20 characters
     setInput(value);
   };
 
@@ -48,12 +201,11 @@ const TrialPage = () => {
 
       if (data.palette && typeof data.palette === 'object') {
         const colorsArray = Object.values(data.palette);
-        console.log('Extracted palette colors:', colorsArray);
         setPalette(colorsArray);
-        setSavedPrompt(input); // Save the current prompt
-        setInput(''); // Clear the input after successful submission
+        setOriginalPalette(colorsArray); // Save the original palette
+        setSavedPrompt(input);
+        setInput('');
       } else {
-        console.error('Invalid palette data:', data.palette);
         setError("Invalid palette data returned from API.");
       }
     } catch (err) {
@@ -71,6 +223,19 @@ const TrialPage = () => {
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   };
 
+  const handleAdjustAllColors = () => {
+    setIsAdjustingAll(true);
+  };
+
+  const handleAdjustAllClose = () => {
+    setIsAdjustingAll(false);
+  };
+
+  const handleAdjustAllApply = (newColors: ColorType[]) => {
+    setPalette(newColors);
+  };
+
+
   return (
     <div className="h-full flex flex-col items-center">
       <div className="min-w-[40%] mt-[40px]">
@@ -86,7 +251,7 @@ const TrialPage = () => {
               value={input}
               placeholder="Ocean daydreams"
               onChange={handleInputChange}
-              maxLength={20}
+              maxLength={25}
             />
           </div>
           <div className="">
@@ -100,7 +265,7 @@ const TrialPage = () => {
                 <>
                     <span className="flex flex-row align-center items-center">
                         <span className="font-bold font-header text-xl">Generate</span>
-                        <ArrowRightIcon className="w-6 h-6 ml-2" />
+                        <ArrowRightIcon className="w-6 h-6 ml-2 stroke-2" />
                     </span>
                 </>
               )} 
@@ -110,16 +275,16 @@ const TrialPage = () => {
       </div>
       
       {palette.length > 0 && (
-        <div className="w-[80%] mt-5 py-4 flex flex-col justify-center items-start border border-red-500 border-solid">
+        <div className="w-[80%] mt-5 py-4 flex flex-col justify-center items-start ">
           {savedPrompt && (
-            <div className="w-full flex flex-row items-center border border-solid border-red-500 justify-between px-4">
+            <div className="w-full flex flex-row items-center justify-between px-4">
                 <h2 className="flex flex-row align-center items-center text-2xl text-slate-700 font-bold my-4">
                 <SparklesIcon className="size-8 text-yellow-400 mr-2" />
                 {savedPrompt}
                 </h2>
                 <div className="flex">
                 <div className="flex flex-row align-center items-center">
-                    <Button type="submit" disabled={isLoading} className='w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
+                    <Button type="submit" onClick={handleAdjustAllColors} disabled={isLoading} className='w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
                         <AdjustmentsHorizontalIcon className="w-6 h-6 mr-2 stroke-2" />
                         Adjust
                     </Button>
@@ -168,6 +333,14 @@ const TrialPage = () => {
             ))}
           </div>
         </div>
+      )}
+      {/* Adjust All Colors -> Modal */}
+       {isAdjustingAll && (
+        <AdjustAllColorsModal
+          colors={originalPalette}
+          onClose={handleAdjustAllClose}
+          onAdjustAll={handleAdjustAllApply}
+        />
       )}
     </div>
   );
