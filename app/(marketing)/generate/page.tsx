@@ -7,6 +7,7 @@ import { Loader2 } from 'lucide-react';
 import { SparklesIcon } from '@heroicons/react/24/outline';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/24/solid';
+import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
 
 const TrialPage = () => {
   interface Color {
@@ -116,11 +117,19 @@ const TrialPage = () => {
                 <SparklesIcon className="size-8 text-yellow-400 mr-2" />
                 {savedPrompt}
                 </h2>
+                <div className="flex">
+                <div className="flex flex-row align-center items-center">
+                    <Button type="submit" disabled={isLoading} className='w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
+                        <AdjustmentsHorizontalIcon className="w-6 h-6 mr-2 stroke-2" />
+                        Adjust
+                    </Button>
+                </div>
                 <div className="flex flex-row align-center items-center">
                     <Button type="submit" disabled={isLoading} className='w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
                         <HeartIcon className="w-6 h-6 mr-2 stroke-2" />
                         Save
                     </Button>
+                </div>
                 </div>
             </div>
           )}
