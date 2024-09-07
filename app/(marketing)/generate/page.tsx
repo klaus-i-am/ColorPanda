@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { Loader2, X } from 'lucide-react';
-import { SparklesIcon } from '@heroicons/react/24/outline';
-import { XMarkIcon, HeartIcon, ArrowRightIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
+import { Twitter, Facebook, Copy } from 'lucide-react';
+import { SparklesIcon, HeartIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon, ArrowRightIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
 import Color from 'color';
 import colorNamer from 'color-namer';
 
@@ -112,6 +113,7 @@ const AdjustAllColorsModal = ({ colors, onClose, onAdjustAll }) => {
           <span>Brighten</span>
         </label>
         <Slider 
+          style={{ border: 'red'}}
           min={-100} 
           max={100} 
           value={[brightness]} 
@@ -275,7 +277,7 @@ const TrialPage = () => {
       </div>
       
       {palette.length > 0 && (
-        <div className="w-[80%] mt-5 py-4 flex flex-col justify-center items-start ">
+        <div className="w-[80%] mt-5 py-4 flex flex-col justify-center items-center  ">
           {savedPrompt && (
             <div className="w-full flex flex-row items-center justify-between px-4">
                 <h2 className="flex flex-row align-center items-center text-2xl text-slate-700 font-bold my-4">
@@ -316,22 +318,49 @@ const TrialPage = () => {
                 </div>
                 <div className="w-full text-center px-2">
                   <h2 
-                    className="font-extrabold font-header text-md mb-1 truncate"
+                    className="font-extrabold font-header text-gray-500 text-md mb-1 truncate"
                     style={{ color: color.Hex }}
                     title={color.HTML_Color_Name}
                   >
                     {color.HTML_Color_Name}
                   </h2>
-                  <p className="font-medium hover:bg-slate-200 hover:cursor-pointer py-1 font-header text-xs my-1 text-gray-500 truncate" title={color.Hex}>
+                  <p className="font-extrabold hover:bg-slate-200 hover:cursor-pointer py-1 font-header text-xs my-1 text-gray-500 truncate" title={color.Hex}>
                     {color.Hex}
                   </p>
-                  <p className="font-medium hover:bg-slate-200 hover:cursor-pointer py-1 font-header text-xs my-1 text-gray-500 truncate" title={color.RGB}>
+                  <p className="font-extrabold hover:bg-slate-200 hover:cursor-pointer py-1 font-header text-xs my-1 text-gray-500 truncate" title={color.RGB}>
                     {color.RGB}
                   </p>
                 </div>
               </div>  
             ))}
           </div>
+          {/* Regenerate Button */}
+          <div className="flex flex-row align-center items-center mt-12">
+              <Button type="submit" onClick={handleAdjustAllColors} disabled={isLoading} className='w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
+                  <ArrowPathIcon className="w-6 h-6 mr-2 stroke-2" />
+                  Re-Generate
+              </Button>
+            </div>
+            {/* Share Palette */}
+            <div className='w-full py-10 mt-12 flex flex-col justify-center items-center border-y-[1px] border-solid border-gray-300/80'>
+              <div className='flex flex-row justify-center items-center'>
+                <div className='flex flex-row justify-center items-center'>
+                  <Button type="submit" onClick={handleAdjustAllColors} disabled={isLoading} className='w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
+                      <Twitter />
+                  </Button>
+                </div>
+                <div className='flex flex-row justify-center items-center'>
+                  <Button type="submit" onClick={handleAdjustAllColors} disabled={isLoading} className='w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
+                      <Facebook />
+                  </Button>
+                </div>
+                <div className='flex flex-row justify-center items-center'>
+                  <Button type="submit" onClick={handleAdjustAllColors} disabled={isLoading} className='w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
+                    <Copy />
+                  </Button>
+                </div>
+              </div>
+            </div>
         </div>
       )}
       {/* Adjust All Colors -> Modal */}
