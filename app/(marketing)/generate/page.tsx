@@ -35,7 +35,7 @@ const Modal = ({ children, onClose }) => {
             <div className='w-[70%] max-w-full'>
               <button
                 onClick={onClose}
-                className="absolute top-2right-2 m-2 bg-gray-200 p-1 rounded-sm text-gray-400 hover:text-gray-700"
+                className="absolute top-2 right-2 m-2 bg-gray-200 p-1 rounded-sm text-gray-400 hover:text-gray-700"
               >
                 <XMarkIcon className='w-6 h-6 font-bold stroke-2' />
               </button>
@@ -364,25 +364,73 @@ const TrialPage = () => {
                 </div>
               </div>
             </div>
-            {/* Recently Generated */}
-            <div className='w-full pt-3 pb-8 mt-8 flex flex-col justify-center items-center'>
-              <h2 className='text-gray-800 font-bold font-header text-2xl mb-6'>Share Palette</h2>
-              <div className='flex flex-row justify-center items-center'>
-                <div className='flex flex-row justify-center items-center'>
-                  <Button type="submit" onClick={handleAdjustAllColors} disabled={isLoading} className='w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
-                      <Twitter />
-                  </Button>
+            {/* Recently Generated => Only with account */}
+            <div className='w-full pt-3 pb-8 mt-8 flex flex-col justify-center items-center rounded-2xl'>
+              <h2 className='text-gray-800 font-bold font-header text-2xl mb-6'>
+                Recently Generated
+              </h2>
+              <div className=' w-full flex flex-row items-center justify-around px-4'>
+                <div className='relative flex flex-row justify-center items-center hover:scale-[.98] hover:cursor-pointer transition-all duration-300 rounded-xl'
+                  style={{ boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.3)' }}
+                >
+                  <div className='flex flex-row justify-center items-center rounded-xl w-[275px] h-[175px]'>
+                    <div className='absolute flex flex-row h-full w-full'>
+                      <div className='w-[150px] h-full bg-violet-500 rounded-l-xl'></div>
+                      <div className='w-[150px] h-full bg-green-400'></div>
+                      <div className='w-[150px] h-full bg-orange-500'></div>
+                      <div className='w-[150px] h-full bg-yellow-500'></div>
+                      <div className='w-[150px] h-full bg-red-500 rounded-r-xl'></div>
+                    </div>
+                  </div>
+                  <span 
+                      className='absolute bottom-3 left-3 z-40 py-1 px-3 text-md rounded-lg bg-gray-200 text-slate-700 font-bold font-header flex align-center items-center'
+                      title='Ocean dreams'
+                  >
+                    <SparklesIcon className='w-5 h-5 mr-2'/>
+                    Ocean dreams
+                  </span>
                 </div>
-                <div className='flex flex-row justify-center items-center'>
-                  <Button type="submit" onClick={handleAdjustAllColors} disabled={isLoading} className='w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
-                      <Facebook />
-                  </Button>
+                <div className='relative flex flex-row justify-center items-center hover:scale-[.98] hover:cursor-pointer transition-all duration-300 rounded-xl'
+                  style={{ boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.3)' }}
+                >
+                  <div className='flex flex-row justify-center items-center rounded-xl w-[275px] h-[175px]'>
+                    <div className='absolute flex flex-row h-full w-full'>
+                      <div className='w-[150px] h-full bg-violet-500 rounded-l-xl'></div>
+                      <div className='w-[150px] h-full bg-green-400'></div>
+                      <div className='w-[150px] h-full bg-orange-500'></div>
+                      <div className='w-[150px] h-full bg-yellow-500'></div>
+                      <div className='w-[150px] h-full bg-red-500 rounded-r-xl'></div>
+                    </div>
+                  </div>
+                  <span 
+                      className='absolute bottom-3 left-3 z-40 py-1 px-3 text-md rounded-lg bg-gray-200 text-slate-700 font-bold font-header flex align-center items-center'
+                      title='Ocean dreams'
+                  >
+                    <SparklesIcon className='w-5 h-5 mr-2'/>
+                    Ocean dreams
+                  </span>
                 </div>
-                <div className='flex flex-row justify-center items-center'>
-                  <Button type="submit" onClick={handleAdjustAllColors} disabled={isLoading} className='w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
-                    <Copy />
-                  </Button>
+                <div className='relative flex flex-row justify-center items-center hover:scale-[.98] hover:cursor-pointer transition-all duration-300 rounded-xl'
+                  style={{ boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.3)' }}
+                >
+                  <div className='flex flex-row justify-center items-center rounded-xl w-[275px] h-[175px]'>
+                    <div className='absolute flex flex-row h-full w-full'>
+                      <div className='w-[150px] h-full bg-violet-500 rounded-l-xl'></div>
+                      <div className='w-[150px] h-full bg-green-400'></div>
+                      <div className='w-[150px] h-full bg-orange-500'></div>
+                      <div className='w-[150px] h-full bg-yellow-500'></div>
+                      <div className='w-[150px] h-full bg-red-500 rounded-r-xl'></div>
+                    </div>
+                  </div>
+                  <span 
+                      className='absolute bottom-3 left-3 z-40 py-1 px-3 text-md rounded-lg bg-gray-200 text-slate-700 font-bold font-header flex align-center items-center'
+                      title='Ocean dreams'
+                  >
+                    <SparklesIcon className='w-5 h-5 mr-2'/>
+                    Ocean dreams
+                  </span>
                 </div>
+                
               </div>
             </div>
         </div>
