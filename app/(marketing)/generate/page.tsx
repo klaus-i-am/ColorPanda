@@ -28,19 +28,21 @@ const Modal = ({ children, onClose }) => {
 
   if (isBrowser) {
     return ReactDOM.createPortal(
-      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
-        <div className="flex justify-center bg-white top-28 rounded-xl p-6 w-[60%] max-w-[90%] relative">
-          <div className='w-[70%] max-w-full'>
-            <button
-              onClick={onClose}
-              className="absolute top-2 right-2 m-2 bg-gray-200 p-1 rounded-sm text-gray-400 hover:text-gray-700"
-            >
-              <XMarkIcon className='w-4 h-4 font-bold stroke-2' />
-            </button>
-            {children}
+      <>
+          <div className="fixed inset-0 flex justify-center bg-white z-50 top-52 self-center left-60 rounded-xl p-6 w-[60%] max-w-[90%] items-center h-[60%]"
+          style={{ boxShadow: '8px 8px 20px rgba(0, 0, 0, 0.15)' }}
+          >
+            <div className='w-[70%] max-w-full'>
+              <button
+                onClick={onClose}
+                className="absolute top-2right-2 m-2 bg-gray-200 p-1 rounded-sm text-gray-400 hover:text-gray-700"
+              >
+                <XMarkIcon className='w-6 h-6 font-bold stroke-2' />
+              </button>
+              {children}
+            </div>
           </div>
-        </div>
-      </div>,
+      </>,
       document.body
     );
   } else {
@@ -342,7 +344,29 @@ const TrialPage = () => {
               </Button>
             </div>
             {/* Share Palette */}
-            <div className='w-full py-10 mt-12 flex flex-col justify-center items-center border-y-[1px] border-solid border-gray-300/80'>
+            <div className='w-full pt-5 pb-9 mt-12 flex flex-col justify-center items-center border-y-[1px] border-solid border-gray-300/80'>
+            <h2 className='text-gray-800 font-bold font-header text-2xl my-6'>Share Palette</h2>
+              <div className='flex flex-row justify-center items-center'>
+                <div className='flex flex-row justify-center items-center'>
+                  <Button type="submit" onClick={handleAdjustAllColors} disabled={isLoading} className='w-full text-xl font-header font-bold mr-6 py-6 px-10 rounded-lg text-slate-600 bg-slate-700/80 hover:bg-slate-900/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
+                      <Twitter className='text-gray-300' />
+                  </Button>
+                </div>
+                <div className='flex flex-row justify-center items-center'>
+                  <Button type="submit" onClick={handleAdjustAllColors} disabled={isLoading} className='w-full text-xl font-header font-bold mr-6 py-6 px-10 rounded-lg text-slate-600 bg-slate-700/80 hover:bg-slate-900/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
+                      <Facebook className='text-gray-300' />
+                  </Button>
+                </div>
+                <div className='flex flex-row justify-center items-center'>
+                  <Button type="submit" onClick={handleAdjustAllColors} disabled={isLoading} className='w-full text-xl font-header font-bold mr-6 py-6 px-10 rounded-lg text-slate-600 bg-slate-700/80 hover:bg-slate-900/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
+                    <Copy className='text-gray-300' />
+                  </Button>
+                </div>
+              </div>
+            </div>
+            {/* Recently Generated */}
+            <div className='w-full pt-3 pb-8 mt-8 flex flex-col justify-center items-center'>
+              <h2 className='text-gray-800 font-bold font-header text-2xl mb-6'>Share Palette</h2>
               <div className='flex flex-row justify-center items-center'>
                 <div className='flex flex-row justify-center items-center'>
                   <Button type="submit" onClick={handleAdjustAllColors} disabled={isLoading} className='w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
