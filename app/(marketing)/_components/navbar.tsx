@@ -37,9 +37,9 @@ export const Navbar = () => {
                         <SignInButton mode="modal">
                             <Button
                                 size="sm"
-                                className="'w-full text-sm font-header font-bold rounded-lg text-white outline-none bg-[#37474f]"
+                                className="'w-full text-sm font-header font-bold rounded-lg p-4 text-white outline-none bg-[#37474f]"
                             >
-                                Join free
+                                Sign Up
                             </Button>
                         </SignInButton>
                     </>
