@@ -18,7 +18,7 @@ export const options: NextAuthOptions = {
                     type: "text",
                     placeholder: "Luffy D Monkey",
                 },
-                pasword: {
+                password: {
                     label: "Password:",
                     type: "password",
                     placeholder: "Shhh...don't tell anyone this.",
@@ -36,9 +36,17 @@ export const options: NextAuthOptions = {
         })
     ],
     pages: {
-        signIn: '/sign-in',
+        signIn: '/auth/signin',
         signOut: '/auth/signout',
-        error: '/auth/error', // Error code passed in query string as ?error=
-        verifyRequest: '/auth/verify-request', // (used for check email message)
-      }
+        newUser: '/auth/new-user'
+      },
+      callbacks: {
+        async jwt({ token, user }) {
+          return { ...token, ...user };
+        },
+        async session({ session, token }) {
+          session.user = token as any;
+          return session;
+        },
+      },
 }

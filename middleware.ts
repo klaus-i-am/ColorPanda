@@ -1,4 +1,14 @@
-export { default } from 'next-auth/middleware';
+import { withAuth } from "next-auth/middleware"
 
+export default withAuth(
+  function middleware(req) {
+    // Your custom logic here
+  },
+  {
+    callbacks: {
+      authorized: ({ token }) => !!token
+    },
+  }
+)
 
-export const config = { matcher: ["/explore"]}
+export const config = { matcher: ["/generate"] }
