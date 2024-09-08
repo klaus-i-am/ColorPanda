@@ -35,4 +35,10 @@ export const options: NextAuthOptions = {
             },
         })
     ],
+    pages: {
+        signIn: '/sign-in',
+        signOut: '/auth/signout',
+        error: '/auth/error', // Error code passed in query string as ?error=
+        verifyRequest: '/auth/verify-request', // (used for check email message)
+      }
 }

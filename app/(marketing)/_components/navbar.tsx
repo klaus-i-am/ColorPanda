@@ -16,19 +16,23 @@ export const Navbar = () => {
         )}>
             <Logo />
             <div className="md:ml-auto md:justify-end justify-between w-full flex items-center gap-x-2">
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className="rounded-sm font-bold font-header"
-                    >
-                        Log in
-                    </Button>
-                    <Button
-                        size="sm"
-                        className="'w-full text-sm font-header font-bold rounded-lg p-4 text-white outline-none bg-[#37474f]"
-                    >
-                        Sign Up
-                    </Button>
+                    <Link href="/sign-in">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="rounded-sm font-bold font-header"
+                        >
+                            Log in
+                        </Button>
+                    </Link>
+                    <Link href="/generate">
+                        <Button
+                            size="sm"
+                            className="'w-full text-sm font-header font-bold rounded-lg p-4 text-white outline-none bg-[#37474f]"
+                        >
+                            Create
+                        </Button>   
+                    </Link>
                 <ModeToggle />
             </div>
         </div>
