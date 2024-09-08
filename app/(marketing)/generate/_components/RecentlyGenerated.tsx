@@ -1,6 +1,14 @@
 import React from 'react';
 import { SparklesIcon } from '@heroicons/react/24/outline';
 
+const colorClasses = [
+  'bg-violet-500',
+  'bg-green-500',
+  'bg-orange-500',
+  'bg-yellow-500',
+  'bg-red-500'
+];
+
 const RecentlyGenerated: React.FC = () => (
   <div className='w-full pt-3 pb-8 mt-8 flex flex-col justify-center items-center rounded-2xl'>
     <h2 className='text-gray-800 font-bold font-header text-2xl mb-6'>
@@ -13,8 +21,11 @@ const RecentlyGenerated: React.FC = () => (
         >
           <div className='flex flex-row justify-center items-center rounded-xl w-[275px] h-[175px]'>
             <div className='absolute flex flex-row h-full w-full'>
-              {['violet', 'green', 'orange', 'yellow', 'red'].map((color, i) => (
-                <div key={i} className={`w-[150px] h-full bg-${color}-500 ${i === 0 ? 'rounded-l-xl' : ''} ${i === 4 ? 'rounded-r-xl' : ''}`} />
+              {colorClasses.map((colorClass, i) => (
+                  <div 
+                    key={i} 
+                    className={`w-[55px] h-full ${colorClass} ${i === 0 ? 'rounded-l-xl' : ''} ${i === 4 ? 'rounded-r-xl' : ''}`} 
+                  />
               ))}
             </div>
           </div>

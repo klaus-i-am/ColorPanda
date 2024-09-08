@@ -25,6 +25,7 @@ export default function LoginPage() {
 
     if (result?.error) {
       setError(result.error);
+      router.push('/');
     } else {
       router.push('/generate'); // Redirect to dashboard on successful login
     }

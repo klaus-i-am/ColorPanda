@@ -8,6 +8,7 @@ import SharePalette from './_components/SharePalette';
 import RecentlyGenerated from './_components/RecentlyGenerated';
 import AdjustAllColorsModal from './_components/AdjustAllColorsModal';
 import {Button} from '@/components/ui/button';
+import { redirect } from "next/navigation";
 
 // ColorType interface//
 interface ColorType {
@@ -32,14 +33,14 @@ const TrialPage: React.FC = () => {
     return <p>Loading...</p>;
   }
   // If the user is not authenticated, you might want to show a login button or redirect
-  if (!session) {
-    return (
-      <div>
-        <p>Please sign in to use this feature</p>
-        <Button onClick={() => signIn()}>Sign In</Button>
-      </div>
-    );
-  }
+  // if (!session) {
+  //   return (
+  //     <div>
+  //       <p>Please sign in to use this feature</p>
+  //       <Button onClick={() => signIn()}>Sign In</Button>
+  //     </div>
+  //   );
+  // }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.slice(0, 25); // Limit to 20 characters
@@ -99,9 +100,7 @@ const TrialPage: React.FC = () => {
   const handleAdjustAllApply = (newColors: ColorType[]) => {
     setPalette(newColors);
   };
-  if (session) {
-    return <p>Welcome, {session.user.name}!</p>
-  }
+
 
   return (
     <div className="h-full flex flex-col items-center">
@@ -125,7 +124,7 @@ const TrialPage: React.FC = () => {
           <RecentlyGenerated />
         </>
       )}
-
+  
       {/* user signed in  */}
       {isAdjustingAll && (
         <AdjustAllColorsModal

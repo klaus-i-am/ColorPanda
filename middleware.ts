@@ -11,4 +11,4 @@ export default withAuth(
   }
 )
 
-export const config = { matcher: ["/generate"] }
+export const config = { matcher: ["/palette"] }
