@@ -1,48 +1,49 @@
-'use client'
+'use client';
 
-import { Spinner } from "@/components/spinner";
+import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
+import { ArrowRightIcon } from '@heroicons/react/24/solid';
 import Link from "next/link";
 
 export const Heading = () => {
-
-    return (
-        <div className="max-w-3xl space-y-4">
-            <Card className="max-w-[500px]">
-                <CardHeader>
-                    <CardTitle>Mood2Palette</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-xl font-bold light:text-slate-800">Generate your ideal color palette</p>
-                    <p className="text-md font-normal light:text-slate-800 mt-3">
-                    ColorMagic is a color palette generator with AI.
-                    Generate colors from keyword for image of color you enter.
-                    </p>
-                </CardContent>
-                    <CardFooter className="flex justify-between">
-                    <Link
-                        className="w-full"
-                        href="/generate"
-                    >
-                        <Button className="w-full mr-2">
-                            Generate
-                        </Button>
-                        </Link>
-                    <Link
-                        className="w-full"
-                        href="/explore"
-                    >
-                        <Button 
-                            variant="secondary"
-                            className="w-full ml-2 border-2 border-solid border-black hover:bg-black hover:text-white hover:transition-all hover:duration-500 hover:ease-in-out"
-                        >
-                            Explore
-                        </Button>
-                    </Link>
-                    </CardFooter>
-            </Card>
-        </div>
-    );
+  return (
+    <div className="h-screen max-h-[548px] w-full flex items-center justify-center align-center">
+      <Card className="max-h-[400px] max-w-[500px] shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-3xl text-gray-600 font-extrabold font-header tracking-wide">
+            Color
+            <span className='text-purple-600'>Muse</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-xl font-bold text-center text-gray-700 mb-4">
+            Generate your ideal color palette
+          </p>
+          <p className="text-md text-center text-gray-600 mb-6">
+            ColorMagic is an AI-powered color palette generator.
+            Create stunning palettes from keywords or color moods you enter.
+          </p>
+        </CardContent>
+        <CardFooter className="flex flex-col space-y-4">
+          <Link href="/generate" className="w-full">
+            <Button className="w-full text-xl font-header font-bold py-6 px-8 rounded-xl text-white bg-gray-800 hover:bg-gray-700 transition-all duration-300">
+              <span className="flex items-center justify-center">
+                Generate
+                <ArrowRightIcon className="w-6 h-6 ml-2" />
+              </span>
+            </Button>
+          </Link>
+          <Link href="/login" className="w-full">
+            <Button 
+              variant="outline"
+              className="w-full text-xl font-header font-bold py-6 px-8 rounded-xl text-gray-800 bg-white border-2 border-gray-800 hover:bg-gray-100 transition-all duration-300"
+            >
+              Login
+            </Button>
+          </Link>
+        </CardFooter>
+      </Card>
+    </div>
+  );
 }

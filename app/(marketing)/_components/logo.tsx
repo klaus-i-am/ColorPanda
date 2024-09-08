@@ -26,7 +26,10 @@ export const Logo = () => {
                 alt="logo"
                 className="hidden dark:block"
             />
-               <Link className="text-gray-600 font-bold font-header text-2xl" href="/">Mood2Palette</Link>
+               <Link className="text-gray-600 font-extrabold font-header text-2xl tracking-wide" href="/">
+                Color
+                <span className="text-purple-600">Muse</span>
+               </Link>
         </div>
     );
 }    
