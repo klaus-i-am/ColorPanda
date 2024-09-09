@@ -49,7 +49,7 @@ export const Navbar = () => {
                             size="sm"
                             className="'w-full text-sm font-header font-bold rounded-lg p-4 text-white outline-none bg-[#37474f]"
                         >
-                            Create
+                            New
                         </Button>   
                     </Link>
                 <ModeToggle />
