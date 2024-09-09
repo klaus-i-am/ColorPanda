@@ -5,8 +5,22 @@ import { Logo } from "./logo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { LogOut } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+  } from "@/components/ui/dropdown-menu"
+  import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+  } from "@/components/ui/popover"
+  
 
 export const Navbar = () => {
     const scrolled = useScrollTop();
@@ -24,16 +38,7 @@ export const Navbar = () => {
         )}>
             <Logo />
             <div className="md:ml-auto md:justify-end justify-between w-full flex items-center gap-x-2">
-                    {session ? (
-                        <Button
-                        onClick={handleSignOut}
-                            variant="ghost"
-                            size="sm"
-                            className="rounded-sm font-bold font-header"
-                        >
-                            Log out
-                        </Button>
-                    ) : (
+                    {!session && (
                         <Link href="/sign-in">
                         <Button
                             variant="ghost"
@@ -44,25 +49,60 @@ export const Navbar = () => {
                         </Button>
                     </Link>
                     )}
-                    
+                    <Popover>
+                        <PopoverTrigger>
+                            <Button
+                                size="sm"
+                                className="'w-full text-sm font-header font-bold rounded-lg p-4 bg-transparent hover:text-white transition-colors duration-300 hover:bg-[#37474f] text-slate-700 border-2 border-solid border-[#37474f]"
+                            >
+                                Go Pro
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <h2>Subscribe</h2>
+                        </PopoverContent>
+                    </Popover>
                     <Link href="/generate">
                         <Button
                             size="sm"
-                            className="'w-full text-sm font-header font-bold rounded-lg p-4 text-white outline-none bg-[#37474f]"
+                            className="'w-full text-sm font-header font-bold rounded-lg p-4 text-white outline-0 bg-[#37474f]"
                         >
                             New
                         </Button>   
                     </Link>
-                    {/* Avatar Image */}
-                    <Avatar 
-                        className="border-4 border-solid border-gray-300 hover:cursor-pointer"
-                        title={session?.user?.name}
-                    >
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>CM</AvatarFallback>
-                    </Avatar>
+
                     {/* Dropdown Menu */}
-                    
+                    {session && (
+                        <DropdownMenu>
+                        <DropdownMenuTrigger className="outline-0">
+                            {/* Avatar Image */}
+                            <Avatar 
+                                className="border-4 border-solid border-gray-300 hover:cursor-pointer"
+                                // title={session?.user?.name}
+                            >
+                                <AvatarImage src={session?.user?.image} />
+                                <AvatarFallback>CM</AvatarFallback>
+                            </Avatar>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="mr-5">
+                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem className="hover:cursor-pointer">Profile</DropdownMenuItem>
+                            <DropdownMenuItem className="hover:cursor-pointer">Saved</DropdownMenuItem>
+                            <DropdownMenuItem className="hover:cursor-pointer">History</DropdownMenuItem>
+                            <DropdownMenuItem className="hover:cursor-pointer">Subscription</DropdownMenuItem>
+                            <DropdownMenuItem className="hover:cursor-pointer" onClick={handleSignOut}> 
+                                    <LogOut 
+                                        strokeWidth={3} 
+                                        className="mr-2 h-4 w-4 text-red-500"
+                                        onClick={handleSignOut}
+                                    />
+                                    Logout
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                        </DropdownMenu>
+                    )}
+
                 {/* <ModeToggle /> */}
             </div>
         </div>
