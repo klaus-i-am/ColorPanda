@@ -111,17 +111,23 @@ const TrialPage: React.FC = () => {
         handleSubmit={handleSubmit}
       />
       
+      {/* if palette length is > 0 */}
       {palette.length > 0 && (
         <>
+        {/* Generate Palette  */}
           <GeneratedPalette
             savedPrompt={savedPrompt}
             palette={palette}
             handleAdjustAllColors={handleAdjustAllColors}
             hexToRGBA={hexToRGBA}
           />
+          {/* Share Palette */}
           <SharePalette />
+
           {/* user signed in */}
           <RecentlyGenerated />
+
+          {/* Marketing here */}
         </>
       )}
   

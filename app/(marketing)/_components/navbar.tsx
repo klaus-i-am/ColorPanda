@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Logo } from "./logo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -52,7 +53,17 @@ export const Navbar = () => {
                             New
                         </Button>   
                     </Link>
-                <ModeToggle />
+                    {/* Avatar Image */}
+                    <Avatar 
+                        className="border-4 border-solid border-gray-300 hover:cursor-pointer"
+                        title={session?.user?.name}
+                    >
+                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarFallback>CM</AvatarFallback>
+                    </Avatar>
+                    {/* Dropdown Menu */}
+                    
+                {/* <ModeToggle /> */}
             </div>
         </div>
     );
