@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { LogOut, BadgeCheck, UserRound, CreditCard, Bookmark, History } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
-
+import { Upgrade } from './upgrade';
 import { useRouter } from "next/navigation";import {
     DropdownMenu,
     DropdownMenuContent,
@@ -62,7 +62,7 @@ export const Navbar = () => {
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent>
-                            <h2>Subscribe</h2>
+                            <Upgrade />
                         </PopoverContent>
                     </Popover>
                     )}
@@ -93,14 +93,18 @@ export const Navbar = () => {
                             </Avatar>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="z-50">
-                            <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
-                                <UserRound className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
-                                Profile
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
-                                <Bookmark className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
-                                Saved
-                            </DropdownMenuItem>
+                            <Link href="/generate">
+                                <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
+                                    <UserRound className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
+                                    Profile
+                                </DropdownMenuItem>
+                            </Link>
+                            <Link href="/saved">
+                                <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
+                                    <Bookmark className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
+                                    Saved
+                                </DropdownMenuItem>
+                            </Link>
                             <Link href="/history">
                                 <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
                                     <History className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />

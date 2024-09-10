@@ -11,11 +11,11 @@ const colorClasses = [
 
 const RecentlyGenerated: React.FC = () => (
   <div className='w-full pt-3 pb-8 mt-8 flex flex-col justify-center items-center rounded-2xl'>
-    <h2 className='text-gray-800 font-bold font-header text-2xl mb-6'>
+    <h2 className='text-gray-800 font-normal font-header text-2xl mb-6'>
       Recently Generated
     </h2>
-    <div className='w-full flex flex-wrap gap-x-3 gap-y-4 justify-start border border-red-600 border-solid px-4'>
-      {[1, 2, 3, 4, 5, 6].map((_, index) => (
+    <div className='w-[90%] flex flex-wrap  gap-x-2 gap-y-2 justify-start items-center'>
+      {[1, 2, 3, 4, 5].map((_, index) => ( 
         <div key={index} className='relative flex flex-row justify-center items-center hover:scale-[.98] hover:cursor-pointer transition-all duration-300 rounded-xl'
           style={{ boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.3)' }}
         >

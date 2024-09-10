@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/providers/theme-provider"
 import { Inter } from "next/font/google";
+import { Nunito } from "next/font/google";
 import { Providers } from "./Providers";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const nunito = Nunito({ 
+  weight: ['400','500','600','700','800'],
+  subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
   title: "ColorPanda",
@@ -26,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`font-semibold ${nunito.className}`}>
         <Providers>
           <ThemeProvider
             attribute="class"

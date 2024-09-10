@@ -2,6 +2,12 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { SparklesIcon, HeartIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
 import ColorBox from './ColorBox';
+import { Nunito } from "next/font/google";
+
+const nunito = Nunito({ 
+    weight: ['800'],
+    subsets: ['latin'],
+});
 
 interface GeneratedPaletteProps {
   savedPrompt: string;
@@ -13,7 +19,7 @@ interface GeneratedPaletteProps {
 const GeneratedPalette: React.FC<GeneratedPaletteProps> = ({ savedPrompt, palette, handleAdjustAllColors, hexToRGBA }) => (
   <div className="w-[80%] mt-5 py-4 flex flex-col justify-center items-center">
     <div className="w-full flex flex-row items-center justify-between px-4">
-      <h2 className="flex flex-row align-center items-center text-2xl text-slate-700 font-bold my-4">
+      <h2 className={`flex flex-row align-center items-center text-2xl text-slate-700 font-bold ${nunito.className} my-4`}>
         <SparklesIcon className="size-8 text-yellow-400 mr-2" />
         {savedPrompt}
       </h2>

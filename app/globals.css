@@ -1,4 +1,4 @@
-@import url("https://use.typekit.net/yza7zqe.css");
+@import url("https://use.typekit.net/ikk1vsh.css");
 
 
 @tailwind base;
@@ -12,6 +12,7 @@
 
   @layer base {
     :root {
+      --background: background-image: url('/bg.png');
       --shadcn-slider-color: hsl(240, 50%, 80%);
       
       --background: 0 0% 100%;

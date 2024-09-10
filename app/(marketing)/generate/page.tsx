@@ -7,8 +7,11 @@ import GeneratedPalette from './_components/GeneratedPalette';
 import SharePalette from './_components/SharePalette';
 import RecentlyGenerated from './_components/RecentlyGenerated';
 import AdjustAllColorsModal from './_components/AdjustAllColorsModal';
+import {LoaderCircle} from "lucide-react";
 import {Button} from '@/components/ui/button';
 import { redirect } from "next/navigation";
+import Image from 'next/image';
+import Logo from '@/public/logo3.png';
 
 // ColorType interface//
 interface ColorType {
@@ -27,20 +30,6 @@ const TrialPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [savedPrompt, setSavedPrompt] = useState('');
   const [isAdjustingAll, setIsAdjustingAll] = useState(false);
-
-  // If the session is loading, you might want to show a loading state
-  if (status === "loading") {
-    return <p>Loading...</p>;
-  }
-  // If the user is not authenticated, you might want to show a login button or redirect
-  // if (!session) {
-  //   return (
-  //     <div>
-  //       <p>Please sign in to use this feature</p>
-  //       <Button onClick={() => signIn()}>Sign In</Button>
-  //     </div>
-  //   );
-  // }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.slice(0, 25); // Limit to 20 characters
@@ -104,43 +93,55 @@ const TrialPage: React.FC = () => {
 
   return (
     <div className="h-full flex flex-col items-center">
-      <PaletteForm
-        input={input}
-        isLoading={isLoading}
-        handleInputChange={handleInputChange}
-        handleSubmit={handleSubmit}
-      />
-      
-      {/* if palette length is > 0 */}
-      {palette.length > 0 && (
-        <>
-        {/* Generate Palette  */}
-          <GeneratedPalette
-            savedPrompt={savedPrompt}
-            palette={palette}
-            handleAdjustAllColors={handleAdjustAllColors}
-            hexToRGBA={hexToRGBA}
+
+      {status === "loading" ? (
+        <div className="absolute z-50 ml-[100%] w-full h-screen mt-[40%] flex self-center justify-center items-center align-center">
+         <LoaderCircle 
+              className="w-10 h-10 rounded-full animate-spin flex justify-center items-center"
           />
-          {/* Share Palette */}
-          <SharePalette />
-
-          {/* user signed in */}
-          {session && (
-            <RecentlyGenerated />
+        </div>
+      ) : (
+        <>
+          <PaletteForm
+            input={input}
+            isLoading={isLoading}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+          />
+          
+          {/* if palette length is > 0 */}
+          {palette.length > 0 && (
+            <>
+            {/* Generate Palette  */}
+              <GeneratedPalette
+                savedPrompt={savedPrompt}
+                palette={palette}
+                handleAdjustAllColors={handleAdjustAllColors}
+                hexToRGBA={hexToRGBA}
+              />
+              {/* Share Palette */}
+              <SharePalette />
+    
+              {/* user signed in */}
+              {session && (
+                <RecentlyGenerated />
+              )}
+    
+              {/* Marketing here */}
+            </>
           )}
-
-          {/* Marketing here */}
+      
+          {/* user signed in  */}
+          {isAdjustingAll && (
+            <AdjustAllColorsModal
+              colors={originalPalette}
+              onClose={handleAdjustAllClose}
+              onAdjustAll={handleAdjustAllApply}
+            />
+          )}
         </>
       )}
-  
-      {/* user signed in  */}
-      {isAdjustingAll && (
-        <AdjustAllColorsModal
-          colors={originalPalette}
-          onClose={handleAdjustAllClose}
-          onAdjustAll={handleAdjustAllApply}
-        />
-      )}
+
     </div>
   );
 };

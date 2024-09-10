@@ -1,5 +1,11 @@
 import React from 'react';
+import { Nunito } from "next/font/google";
 
+
+const nunito = Nunito({ 
+  weight: ['400','500','600','700','800'],
+  subsets: ['latin'],
+});
 
 interface ColorType {
     Hex: string;
@@ -25,18 +31,18 @@ const ColorBox: React.FC<ColorBoxProps> = ({ color, hexToRGBA }) => (
       className="w-12 h-12 my-3 border-4 border-solid border-white/30 rounded-full flex items-center justify-center"
       style={{ backgroundColor: color.Hex }}
     />
-    <div className="w-full text-center px-2">
+    <div className={`w-full text-center ${nunito.className} px-2`}>
       <h2 
-        className="font-extrabold font-header text-gray-500 text-md mb-1 truncate"
+        className={`font-extrabold tracking-wide ${nunito.className} text-gray-500 text-md mb-1 truncate`}
         style={{ color: color.Hex }}
         title={color.HTML_Color_Name}
       >
         {color.HTML_Color_Name}
       </h2>
-      <p className="font-extrabold hover:bg-slate-200 hover:cursor-pointer py-1 font-header text-xs my-1 text-gray-500 truncate" title={color.Hex}>
+      <p className={`font-extrabold hover:bg-slate-200 hover:cursor-pointer py-1 tracking-wide ${nunito.className} text-xs my-1 text-gray-500 truncate`} title={color.Hex}>
         {color.Hex}
       </p>
-      <p className="font-extrabold hover:bg-slate-200 hover:cursor-pointer py-1 font-header text-xs my-1 text-gray-500 truncate" title={color.RGB}>
+      <p className={`font-extrabold hover:bg-slate-200 hover:cursor-pointer py-1 tracking-wide ${nunito.className} text-xs my-1 text-gray-500 truncate`} title={color.RGB}>
         {color.RGB}
       </p>
     </div>

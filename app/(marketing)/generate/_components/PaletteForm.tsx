@@ -1,8 +1,17 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Logo from '@/public/logo3.png';
 import { Loader2 } from 'lucide-react';
 import { ArrowRightIcon } from '@heroicons/react/24/solid';
+import Image from 'next/image'; 
+import { LoaderCircle } from 'lucide-react';
+import { Nunito } from "next/font/google";
+
+const nunito = Nunito({ 
+  weight: ['400','500','600','700','800'],
+  subsets: ['latin'],
+});
 
 interface PaletteFormProps {
   input: string;
@@ -28,15 +37,18 @@ const PaletteForm: React.FC<PaletteFormProps> = ({ input, isLoading, handleInput
           maxLength={25}
         />
       </div>
-      <Button type="submit" disabled={isLoading} className='w-full text-xl font-header font-bold py-8 px-8 rounded-xl text-white bg-gray-500 outline-none focus:outline-0'>
+      <Button type="submit" disabled={isLoading} className={`w-full text-xl font-header font-bold py-8 px-8 rounded-xl text-white bg-gray-500 outline-none focus:outline-0 ${nunito.className}`}>
         {isLoading ? (
           <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <LoaderCircle 
+                className="w-5 h-5 mr-2 rounded-full animate-spin flex justify-center items-center font-bold "
+            />
+            {/* <Loader2 className="mr-2 h-4 w-4 animate-spin" /> */}
             Generating...
           </>
         ) : (
           <span className="flex flex-row align-center items-center">
-            <span className="font-bold font-header text-xl">Generate</span>
+            <span className={`font-bold ${nunito.className} tracking-wide text-xl`}>Generate</span>
             <ArrowRightIcon className="w-6 h-6 ml-2 stroke-2" />
           </span>
         )} 
