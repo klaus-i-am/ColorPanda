@@ -101,10 +101,12 @@ export const Navbar = () => {
                                 <Bookmark className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
                                 Saved
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
-                                <History className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
-                                History
-                            </DropdownMenuItem>
+                            <Link href="/history">
+                                <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
+                                    <History className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
+                                    History
+                                </DropdownMenuItem>
+                            </Link>
                             <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
                                 <CreditCard className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
                                 Subscription

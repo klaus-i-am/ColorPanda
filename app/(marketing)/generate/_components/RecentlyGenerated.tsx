@@ -14,8 +14,8 @@ const RecentlyGenerated: React.FC = () => (
     <h2 className='text-gray-800 font-bold font-header text-2xl mb-6'>
       Recently Generated
     </h2>
-    <div className='w-full flex flex-row items-center justify-center space-x-10 px-4'>
-      {[1, 2, 3].map((_, index) => (
+    <div className='w-full flex flex-wrap gap-x-3 gap-y-4 justify-start border border-red-600 border-solid px-4'>
+      {[1, 2, 3, 4, 5, 6].map((_, index) => (
         <div key={index} className='relative flex flex-row justify-center items-center hover:scale-[.98] hover:cursor-pointer transition-all duration-300 rounded-xl'
           style={{ boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.3)' }}
         >
