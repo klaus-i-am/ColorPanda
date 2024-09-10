@@ -125,7 +125,9 @@ const TrialPage: React.FC = () => {
           <SharePalette />
 
           {/* user signed in */}
-          <RecentlyGenerated />
+          {session && (
+            <RecentlyGenerated />
+          )}
 
           {/* Marketing here */}
         </>

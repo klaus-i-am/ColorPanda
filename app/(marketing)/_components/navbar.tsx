@@ -5,8 +5,9 @@ import { Logo } from "./logo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { LogOut } from "lucide-react";
+import { LogOut, BadgeCheck, UserRound, CreditCard, Bookmark, History } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
+
 import { useRouter } from "next/navigation";import {
     DropdownMenu,
     DropdownMenuContent,
@@ -33,27 +34,29 @@ export const Navbar = () => {
     };
 
     return (
-        <div className={cn("z-50 bg-background dark:bg-[#1F1F1F] fixed top-0 flex items-center w-full p-6",
+        <div className={cn("z-50 bg-background dark:bg-[#1F1F1F] fixed top-0 flex items-center w-full py-6 px-[5rem]",
             scrolled && "border-b shadow-sm"
         )}>
             <Logo />
             <div className="md:ml-auto md:justify-end justify-between w-full flex items-center gap-x-2">
-                    {!session && (
+                    {!session ? (
                         <Link href="/sign-in">
                         <Button
                             variant="ghost"
                             size="sm"
                             className="rounded-sm font-bold font-header"
+                            style={{ boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)" }} 
                         >
                             Log in
                         </Button>
                     </Link>
-                    )}
+                    ) : (
                     <Popover>
                         <PopoverTrigger>
                             <Button
                                 size="sm"
                                 className="'w-full text-sm font-header font-bold rounded-lg p-4 bg-transparent hover:text-white transition-colors duration-300 hover:bg-[#37474f] text-slate-700 border-2 border-solid border-[#37474f]"
+                                style={{ boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)", textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)" }} 
                             >
                                 Go Pro
                             </Button>
@@ -62,10 +65,13 @@ export const Navbar = () => {
                             <h2>Subscribe</h2>
                         </PopoverContent>
                     </Popover>
+                    )}
+                    
                     <Link href="/generate">
                         <Button
                             size="sm"
                             className="'w-full text-sm font-header font-bold rounded-lg p-4 text-white outline-0 bg-[#37474f]"
+                            style={{ boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)" }} 
                         >
                             New
                         </Button>   
@@ -77,21 +83,33 @@ export const Navbar = () => {
                         <DropdownMenuTrigger className="outline-0">
                             {/* Avatar Image */}
                             <Avatar 
-                                className="border-4 border-solid border-gray-300 hover:cursor-pointer"
+                                className="w-12 h-12 border-4 border-solid border-gray-300/80 hover:cursor-pointer"
+
                                 // title={session?.user?.name}
                             >
+                                <BadgeCheck className="bg-black" size={28} strokeWidth={3} />
                                 <AvatarImage src={session?.user?.image} />
                                 <AvatarFallback>CM</AvatarFallback>
                             </Avatar>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="mr-5">
-                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem className="hover:cursor-pointer">Profile</DropdownMenuItem>
-                            <DropdownMenuItem className="hover:cursor-pointer">Saved</DropdownMenuItem>
-                            <DropdownMenuItem className="hover:cursor-pointer">History</DropdownMenuItem>
-                            <DropdownMenuItem className="hover:cursor-pointer">Subscription</DropdownMenuItem>
-                            <DropdownMenuItem className="hover:cursor-pointer" onClick={handleSignOut}> 
+                        <DropdownMenuContent className="z-50">
+                            <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
+                                <UserRound className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
+                                Profile
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
+                                <Bookmark className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
+                                Saved
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
+                                <History className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
+                                History
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
+                                <CreditCard className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
+                                Subscription
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide" onClick={handleSignOut}> 
                                     <LogOut 
                                         strokeWidth={3} 
                                         className="mr-2 h-4 w-4 text-red-500"

@@ -13,22 +13,19 @@ export const Logo = () => {
     return (
         <div className="hidden md:flex items-center gap-x-2">
             <Image
-                src="/logo.png"
-                width="24"
-                height="24"
+                src="/logo3.png"
+                width="45"
+                height="45"
                 alt="logo"
                 className="dark:hidden"
             />
-            <Image
-                src="/logo.png"
-                width="24"
-                height="24"
-                alt="logo"
-                className="hidden dark:block"
-            />
-               <Link className="text-gray-600 font-extrabold font-header text-2xl tracking-wide" href="/">
+               <Link className="text-gray-600 font-extrabold font-header text-2xl tracking-wide" href="/"
+                    style={{ textShadow: "1px 2px 2px rgba(0, 0, 0, 0.3)" }} 
+                >
                 Color
-                <span className="text-purple-600">Muse</span>
+                <span 
+                    className="text-purple-600"
+                >Panda</span>
                </Link>
         </div>
     );

@@ -5,15 +5,23 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRightIcon } from '@heroicons/react/24/solid';
 import Link from "next/link";
+import Image from "next/image";
 
 export const Heading = () => {
   return (
     <div className="h-full max-h-[548px] w-full flex items-center justify-center align-center mt-12">
       <Card className="max-h-[400px] max-w-[500px] shadow-lg">
         <CardHeader>
-          <CardTitle className="text-3xl text-gray-600 font-extrabold font-header tracking-wide">
+          <CardTitle className="flex justify-center items-center text-3xl text-gray-600 font-extrabold font-header tracking-wide">
+            <Image
+              src="/logo3.png"
+              width="45"
+              height="45"
+              alt="ColorMuse logo"
+              className="object-contain"
+            />
             Color
-            <span className='text-purple-600'>Muse</span>
+            <span className='text-purple-600'>Panda</span>
           </CardTitle>
         </CardHeader>
         <CardContent>

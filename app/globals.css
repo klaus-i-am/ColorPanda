@@ -7,11 +7,11 @@
 
   html, body, :root {
     height: 100%;
+    overflow-y: auto !important;
   }
 
   @layer base {
     :root {
-
       --shadcn-slider-color: hsl(240, 50%, 80%);
       
       --background: 0 0% 100%;

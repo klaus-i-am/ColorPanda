@@ -7,7 +7,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "ColorMuse",
+  title: "ColorPanda",
   description: "Generate Custom Palette from your mood",
   icons: {
     icon: [
