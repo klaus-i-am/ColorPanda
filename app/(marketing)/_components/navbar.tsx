@@ -5,7 +5,7 @@ import { Logo } from "./logo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { LogOut, BadgeCheck, UserRound, Plus, CreditCard, Bookmark, History } from "lucide-react";
+import { LogOut, BadgeCheck, UserRound, CircleCheck, Plus, CreditCard, Bookmark, History } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Upgrade } from './upgrade';
 import { Nunito } from "next/font/google";
@@ -87,17 +87,18 @@ export const Navbar = () => {
                         {/* Dropdown Menu */}
                         {session && (
                             <DropdownMenu>
-                            <DropdownMenuTrigger className="outline-0">
-                                {/* Avatar Image */}
-                                <Avatar 
-                                    className="w-12 h-12 border-4 border-solid border-gray-300/80 hover:cursor-pointer"
-
-                                    // title={session?.user?.name}
-                                >
-                                    <BadgeCheck className="bg-black" size={28} strokeWidth={3} />
-                                    <AvatarImage src={session?.user?.image} />
-                                    <AvatarFallback>CM</AvatarFallback>
-                                </Avatar>
+                            <DropdownMenuTrigger className="outline-0 relative select-none">
+                                <div className="relative">
+                                    <Avatar 
+                                        className="w-12 h-12 hover:cursor-pointer border-4 border-solid border-gray-300/80 rounded-full"
+                                    >
+                                        <AvatarImage src={session?.user?.image} />
+                                        <AvatarFallback>CM</AvatarFallback>
+                                    </Avatar>
+                                    <div className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-0.5 border-1 border-blue-500">
+                                        <CircleCheck className="text-white" size={16} strokeWidth={3} />
+                                    </div>
+                                </div>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="z-50">
                                 <Link href="/generate">

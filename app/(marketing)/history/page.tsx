@@ -8,13 +8,18 @@ import { redirect } from "next/navigation";
 import Image from 'next/image';
 import Logo from '@/public/logo3.png';
 import { LoaderCircle } from "lucide-react";
+import { Nunito } from "next/font/google";
+
+
+const nunito = Nunito({
+    weight: ['400','500','600','700','800'],
+    subsets: ['latin'],
+    });
 
 const History: React.FC = () => {
-  const { data: session, status } = useSession();
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-
+    const { data: session, status } = useSession();
+    const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className="flex">

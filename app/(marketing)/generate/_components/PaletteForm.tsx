@@ -21,7 +21,7 @@ interface PaletteFormProps {
 }
 
 const PaletteForm: React.FC<PaletteFormProps> = ({ input, isLoading, handleInputChange, handleSubmit }) => (
-  <div className={`min-w-[40%] mt-[10%]  tracking-wide`}>
+  <div className={`min-w-[40%] mt-[10%] select-none tracking-wide`}>
     <form onSubmit={handleSubmit}>
       <div className={`text-wrap text-center ${nunito.className} flex flex-col justify-center`}>
         <h1 className={`mt-2 text-2xl font-extrabold ${nunito.className} text-[rgba(60,66,77,1)]`}>

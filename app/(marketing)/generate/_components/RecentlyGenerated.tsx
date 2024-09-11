@@ -1,5 +1,11 @@
 import React from 'react';
 import { SparklesIcon } from '@heroicons/react/24/outline';
+import { Nunito } from 'next/font/google';
+
+const nunito = Nunito({
+  weight: ['400', '500', '600', '700', '800'],
+  subsets: ['latin']
+});
 
 const colorClasses = [
   'bg-violet-500',
@@ -11,7 +17,7 @@ const colorClasses = [
 
 const RecentlyGenerated: React.FC = () => (
   <div className='w-full pt-3 pb-8 mt-8 flex flex-col justify-center items-center rounded-2xl'>
-    <h2 className='text-gray-800 font-normal font-header text-2xl mb-6'>
+    <h2 className={`text-gray-800 font-bold ${nunito.className} text-3xl mb-6`}>
       Recently Generated
     </h2>
     <div className='w-[90%] flex flex-wrap  gap-x-2 gap-y-2 justify-start items-center'>
