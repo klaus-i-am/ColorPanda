@@ -5,9 +5,10 @@ import { Logo } from "./logo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { LogOut, BadgeCheck, UserRound, CreditCard, Bookmark, History } from "lucide-react";
+import { LogOut, BadgeCheck, UserRound, Plus, CreditCard, Bookmark, History } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Upgrade } from './upgrade';
+import { Nunito } from "next/font/google";
 import { useRouter } from "next/navigation";import {
     DropdownMenu,
     DropdownMenuContent,
@@ -21,7 +22,11 @@ import { useRouter } from "next/navigation";import {
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"
-  
+
+const nunito = Nunito({ 
+weight: ['400','500','600','700','800'],
+subsets: ['latin'],
+});
 
 export const Navbar = () => {
     const scrolled = useScrollTop();
@@ -34,100 +39,103 @@ export const Navbar = () => {
     };
 
     return (
-        <div className={cn("z-50 bg-background dark:bg-[#1F1F1F] fixed top-0 flex items-center w-full py-6 px-[5rem]",
+        <div className={`cn(w-full z-50 bg-background dark:bg-[#1F1F1F] top-0 flex justify-around items-center py-6 font-bold tracking-widest ${nunito.className},
             scrolled && "border-b shadow-sm"
-        )}>
-            <Logo />
-            <div className="md:ml-auto md:justify-end justify-between w-full flex items-center gap-x-2">
-                    {!session ? (
-                        <Link href="/sign-in">
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            className="rounded-sm font-bold font-header"
-                            style={{ boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)" }} 
-                        >
-                            Log in
-                        </Button>
-                    </Link>
-                    ) : (
-                    <Popover>
-                        <PopoverTrigger>
+        )`}>
+            <div className="w-[90%] flex justify-around">
+                <Logo />
+                <div className="md:ml-auto md:justify-end flex justify-between items-center gap-x-2">
+                        {!session ? (
+                            <Link href="/sign-in">
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className="rounded-sm font-bold font-header"
+                                style={{ boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)" }} 
+                            >
+                                Log in
+                            </Button>
+                        </Link>
+                        ) : (
+                        <Popover>
+                            <PopoverTrigger>
+                                <Button
+                                    size="sm"
+                                    className={`w-full text-sm ${nunito.className} font-bold rounded-lg p-4 bg-transparent hover:text-white transition-colors duration-300 hover:bg-[#37474f] text-slate-700 border-2 border-solid border-[#37474f]`}
+                                    style={{ boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)", textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)" }} 
+                                >
+                                    Go Pro
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                <Upgrade />
+                            </PopoverContent>
+                        </Popover>
+                        )}
+                        
+                        <Link href="/generate">
                             <Button
                                 size="sm"
-                                className="'w-full text-sm font-header font-bold rounded-lg p-4 bg-transparent hover:text-white transition-colors duration-300 hover:bg-[#37474f] text-slate-700 border-2 border-solid border-[#37474f]"
-                                style={{ boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)", textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)" }} 
+                                className={`w-full text-sm ${nunito.className} font-bold rounded-lg p-4 text-white outline-0 bg-[#37474f]`}
+                                style={{ boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)" }} 
                             >
-                                Go Pro
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent>
-                            <Upgrade />
-                        </PopoverContent>
-                    </Popover>
-                    )}
-                    
-                    <Link href="/generate">
-                        <Button
-                            size="sm"
-                            className="'w-full text-sm font-header font-bold rounded-lg p-4 text-white outline-0 bg-[#37474f]"
-                            style={{ boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)" }} 
-                        >
-                            New
-                        </Button>   
-                    </Link>
+                                <Plus className="mr-2 h-4 w-4 text-white" size={28} strokeWidth={3} />
+                                New
+                            </Button>   
+                        </Link>
 
-                    {/* Dropdown Menu */}
-                    {session && (
-                        <DropdownMenu>
-                        <DropdownMenuTrigger className="outline-0">
-                            {/* Avatar Image */}
-                            <Avatar 
-                                className="w-12 h-12 border-4 border-solid border-gray-300/80 hover:cursor-pointer"
+                        {/* Dropdown Menu */}
+                        {session && (
+                            <DropdownMenu>
+                            <DropdownMenuTrigger className="outline-0">
+                                {/* Avatar Image */}
+                                <Avatar 
+                                    className="w-12 h-12 border-4 border-solid border-gray-300/80 hover:cursor-pointer"
 
-                                // title={session?.user?.name}
-                            >
-                                <BadgeCheck className="bg-black" size={28} strokeWidth={3} />
-                                <AvatarImage src={session?.user?.image} />
-                                <AvatarFallback>CM</AvatarFallback>
-                            </Avatar>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="z-50">
-                            <Link href="/generate">
+                                    // title={session?.user?.name}
+                                >
+                                    <BadgeCheck className="bg-black" size={28} strokeWidth={3} />
+                                    <AvatarImage src={session?.user?.image} />
+                                    <AvatarFallback>CM</AvatarFallback>
+                                </Avatar>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="z-50">
+                                <Link href="/generate">
+                                    <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
+                                        <UserRound className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
+                                        Profile
+                                    </DropdownMenuItem>
+                                </Link>
+                                <Link href="/saved">
+                                    <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
+                                        <Bookmark className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
+                                        Saved
+                                    </DropdownMenuItem>
+                                </Link>
+                                <Link href="/history">
+                                    <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
+                                        <History className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
+                                        History
+                                    </DropdownMenuItem>
+                                </Link>
                                 <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
-                                    <UserRound className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
-                                    Profile
+                                    <CreditCard className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
+                                    Subscription
                                 </DropdownMenuItem>
-                            </Link>
-                            <Link href="/saved">
-                                <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
-                                    <Bookmark className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
-                                    Saved
+                                <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide" onClick={handleSignOut}> 
+                                        <LogOut 
+                                            strokeWidth={3} 
+                                            className="mr-2 h-4 w-4 text-red-500"
+                                            onClick={handleSignOut}
+                                        />
+                                        Logout
                                 </DropdownMenuItem>
-                            </Link>
-                            <Link href="/history">
-                                <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
-                                    <History className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
-                                    History
-                                </DropdownMenuItem>
-                            </Link>
-                            <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide">
-                                <CreditCard className="mr-2 h-4 w-4 text-slate-700" size={28} strokeWidth={3} />
-                                Subscription
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="hover:cursor-pointer text-slate-700 font-bold font-header tracking-wide" onClick={handleSignOut}> 
-                                    <LogOut 
-                                        strokeWidth={3} 
-                                        className="mr-2 h-4 w-4 text-red-500"
-                                        onClick={handleSignOut}
-                                    />
-                                    Logout
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                        </DropdownMenu>
-                    )}
+                            </DropdownMenuContent>
+                            </DropdownMenu>
+                        )}
 
-                {/* <ModeToggle /> */}
+                    {/* <ModeToggle /> */}
+                </div>
             </div>
         </div>
     );

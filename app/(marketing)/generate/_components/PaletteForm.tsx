@@ -21,20 +21,21 @@ interface PaletteFormProps {
 }
 
 const PaletteForm: React.FC<PaletteFormProps> = ({ input, isLoading, handleInputChange, handleSubmit }) => (
-  <div className="min-w-[40%] mt-[40px]">
+  <div className={`min-w-[40%] mt-[10%]  tracking-wide`}>
     <form onSubmit={handleSubmit}>
-      <div className="text-wrap text-center flex flex-col justify-center">
-        <h1 className="mt-2 text-2xl font-extrabold font-header text-[rgba(60,66,77,1)]">
+      <div className={`text-wrap text-center ${nunito.className} flex flex-col justify-center`}>
+        <h1 className={`mt-2 text-2xl font-extrabold ${nunito.className} text-[rgba(60,66,77,1)]`}>
           Generate a new palette
         </h1>
-        <span className="my-2 text-lg text-gray-500 font-bold font-header">Enter keywords for image or mood of color</span>
+        <span className={`mb-4 text-lg text-gray-500 font-bold ${nunito.className}`}>Enter keywords for image or mood of color</span>
         <Input
-          className="max-w-lg p-7 pl-4 mb-8 bg-gray-200 placeholder:font-header placeholder:font-extrabold placeholder:text-slate-400 rounded-xl placeholder:text-lg font-header font-extrabold text-lg 
+          className="max-w-lg p-7 pl-4 mb-3 bg-gray-200 placeholder:font-header placeholder:font-extrabold placeholder:text-slate-400 rounded-xl placeholder:text-lg font-header font-extrabold text-lg 
           focus:outline-0 focus-visible:border-transparent focus-visible:ring-0 text-[#607d8b]"
           value={input}
           placeholder="Ocean daydreams"
           onChange={handleInputChange}
           maxLength={25}
+          minLength={3}
         />
       </div>
       <Button type="submit" disabled={isLoading} className={`w-full text-xl font-header font-bold py-8 px-8 rounded-xl text-white bg-gray-500 outline-none focus:outline-0 ${nunito.className}`}>

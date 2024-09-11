@@ -25,7 +25,7 @@ export const Logo = () => {
                 alt="logo"
                 className="dark:hidden"
             />
-               <Link className={`text-gray-600 font-extrabold ${nunito.className} text-3xl tracking-wide`} href="/"
+               <Link className={`text-gray-600 font-extrabold ${nunito.className} text-2xl tracking-wide`} href="/"
                     style={{ textShadow: "1px 2px 2px rgba(0, 0, 0, 0.2)" }} 
                 >
                 Color

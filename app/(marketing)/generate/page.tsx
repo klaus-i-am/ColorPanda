@@ -92,10 +92,10 @@ const TrialPage: React.FC = () => {
 
 
   return (
-    <div className="h-full flex flex-col items-center">
+    <div className="h-full flex flex-col justify-center items-center">
 
       {status === "loading" ? (
-        <div className="absolute z-50 ml-[100%] w-full h-screen mt-[40%] flex self-center justify-center items-center align-center">
+        <div className="absolute z-50  w-full h-screen mt-[40%] flex self-center justify-center items-center align-center">
          <LoaderCircle 
               className="w-10 h-10 rounded-full animate-spin flex justify-center items-center"
           />
@@ -128,20 +128,20 @@ const TrialPage: React.FC = () => {
               )}
     
               {/* Marketing here */}
+
+              
+              {/* user signed in  */}
+              {isAdjustingAll && (
+                <AdjustAllColorsModal
+                  colors={originalPalette}
+                  onClose={handleAdjustAllClose}
+                  onAdjustAll={handleAdjustAllApply}
+                />
+              )}
             </>
-          )}
-      
-          {/* user signed in  */}
-          {isAdjustingAll && (
-            <AdjustAllColorsModal
-              colors={originalPalette}
-              onClose={handleAdjustAllClose}
-              onAdjustAll={handleAdjustAllApply}
-            />
           )}
         </>
       )}
-
     </div>
   );
 };
