@@ -39,7 +39,7 @@ export const Navbar = () => {
     };
 
     return (
-        <div className={`cn(w-full z-50 bg-background dark:bg-[#1F1F1F] top-0 flex justify-around items-center py-6 font-bold tracking-widest ${nunito.className},
+        <div className={`cn(w-full bg-background dark:bg-[#1F1F1F] top-0 flex justify-around items-center py-6 font-bold tracking-widest ${nunito.className},
             scrolled && "border-b shadow-sm"
         )`}>
             <div className="w-[90%] flex justify-around">
