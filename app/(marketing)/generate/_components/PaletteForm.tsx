@@ -29,7 +29,7 @@ const PaletteForm: React.FC<PaletteFormProps> = ({ input, isLoading, handleInput
         </h1>
         <span className={`mb-4 text-lg text-gray-500 font-bold ${nunito.className}`}>Enter keywords for image or mood of color</span>
         <Input
-          className="max-w-lg p-7 pl-4 mb-3 bg-gray-200 placeholder:font-header placeholder:font-extrabold placeholder:text-slate-400 rounded-xl placeholder:text-lg font-header font-extrabold text-lg 
+          className="max-w-lg p-7 pl-4 mb-3 bg-gray-200 placeholder:font-header placeholder:font-extrabold placeholder:text-slate-400 rounded-xl placeholder:text-lg font-header font-extrabold text-lg focus-0 border-0 outline-0 ring-0
           focus:outline-0 focus-visible:border-transparent focus-visible:ring-0 text-[#607d8b]"
           value={input}
           placeholder="Ocean daydreams"

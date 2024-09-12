@@ -1,7 +1,8 @@
 'use client';
 
 import { useSession, signIn } from "next-auth/react";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import PaletteForm from './_components/PaletteForm';
 import GeneratedPalette from './_components/GeneratedPalette';
 import SharePalette from './_components/SharePalette';
@@ -21,7 +22,7 @@ interface ColorType {
 
 const TrialPage: React.FC = () => {
   const { data: session, status } = useSession();
-
+  const searchParams = useSearchParams();
   const [input, setInput] = useState('');
   const [palette, setPalette] = useState<ColorType[]>([]);
 
@@ -30,6 +31,15 @@ const TrialPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [savedPrompt, setSavedPrompt] = useState('');
   const [isAdjustingAll, setIsAdjustingAll] = useState(false);
+
+  useEffect(() => {
+    const urlPrompt = searchParams.get('prompt');
+    if (urlPrompt) {
+      setInput(urlPrompt);
+      generatePalette(urlPrompt);
+    }
+  }, [searchParams]);
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.slice(0, 25); // Limit to 20 characters
@@ -44,38 +54,7 @@ const TrialPage: React.FC = () => {
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    try {
-      const response = await fetch('/api/completion', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt: input }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log('Full API Response:', data);
-
-      if (data.palette && typeof data.palette === 'object') {
-        const colorsArray = Object.values(data.palette);
-        setPalette(colorsArray);
-        setOriginalPalette(colorsArray); // Save the original palette
-        setSavedPrompt(input);
-        setInput('');
-      } else {
-        setError("Invalid palette data returned from API.");
-      }
-    } catch (err) {
-      console.error('Error occurred:', err);
-      setError("Failed to generate the palette.");
-    } finally {
-      setIsLoading(false);
-    }
+    generatePalette(input);
   };
 
   const handleAdjustAllColors = () => {
@@ -89,25 +68,63 @@ const TrialPage: React.FC = () => {
   const handleAdjustAllApply = (newColors: ColorType[]) => {
     setPalette(newColors);
   };
+  const generatePalette = async (prompt: string) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/completion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt }),
+      });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Full API Response:', data);
+
+      if (data.palette && typeof data.palette === 'object') {
+        const colorsArray = Object.values(data.palette);
+        setPalette(colorsArray);
+        setOriginalPalette(colorsArray);
+        setSavedPrompt(prompt);
+        setInput('');
+      } else {
+        setError("Invalid palette data returned from API.");
+      }
+    } catch (err) {
+      console.error('Error occurred:', err);
+      setError("Failed to generate the palette.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div className="h-full flex flex-col justify-center items-center">
+    <div className="flex flex-col items-center">
 
       {status === "loading" ? (
-        <div className="absolute z-50  w-full h-screen mt-[40%] flex self-center justify-center items-center align-center">
+        <div className=" z-50 w-full h-screen mt-[40%] flex self-center justify-center items-center align-center">
          <LoaderCircle 
               className="w-10 h-10 rounded-full animate-spin flex justify-center items-center"
           />
         </div>
       ) : (
         <>
-          <PaletteForm
-            input={input}
-            isLoading={isLoading}
-            handleInputChange={handleInputChange}
-            handleSubmit={handleSubmit}
-          />
+          {/* Palette Form */}
+          {palette.length === 0 && (
+            <>
+              <PaletteForm
+                input={input}
+                isLoading={isLoading}
+                handleInputChange={handleInputChange}
+                handleSubmit={handleSubmit}
+              />
+            </>
+          )}
           
           {/* if palette length is > 0 */}
           {palette.length > 0 && (

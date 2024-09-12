@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { useScrollTop } from "@/hooks/use-scroll-top";
 import { ModeToggle } from "@/components/mode-toggle";
 import { cn } from "@/lib/utils";
 import { Logo } from "./logo";
 import { Button } from "@/components/ui/button";
+
+import GenerateFormModal from '../generate/_components/GenerateFormModal'; 
+
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { LogOut, BadgeCheck, UserRound, CircleCheck, Plus, CreditCard, Bookmark, History } from "lucide-react";
@@ -29,14 +33,23 @@ subsets: ['latin'],
 });
 
 export const Navbar = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const scrolled = useScrollTop();
     const { data: session, status } = useSession();
     const router = useRouter();
+    
+    const handleOpenModal = () => setIsModalOpen(true);
+    const handleCloseModal = () => setIsModalOpen(false);
 
     const handleSignOut = async () => {
         await signOut({ redirect: false });
         router.push('/'); // Redirect to home page after sign out
     };
+
+    const handleGenerateSubmit = (prompt: string) => {
+        router.push(`/generate?prompt=${encodeURIComponent(prompt)}`);
+    };
+
 
     return (
         <div className={`cn(w-full bg-background dark:bg-[#1F1F1F] top-0 flex justify-around items-center py-6 font-bold tracking-widest ${nunito.className},
@@ -73,16 +86,15 @@ export const Navbar = () => {
                         </Popover>
                         )}
                         
-                        <Link href="/generate">
-                            <Button
-                                size="sm"
-                                className={`w-full text-sm ${nunito.className} font-bold rounded-lg p-4 text-white outline-0 bg-[#37474f]`}
-                                style={{ boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)" }} 
-                            >
-                                <Plus className="mr-2 h-4 w-4 text-white" size={28} strokeWidth={3} />
-                                New
-                            </Button>   
-                        </Link>
+                        <Button
+                            size="sm"
+                            className={`w-full text-sm ${nunito.className} font-bold rounded-lg p-4 text-white outline-0 bg-[#37474f]`}
+                            style={{ boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)" }}
+                            onClick={handleOpenModal}
+                        >
+                            <Plus className="mr-2 h-4 w-4 text-white" size={28} strokeWidth={3} />
+                            New
+                        </Button>
 
                         {/* Dropdown Menu */}
                         {session && (
@@ -138,6 +150,11 @@ export const Navbar = () => {
                     {/* <ModeToggle /> */}
                 </div>
             </div>
+            <GenerateFormModal 
+                isOpen={isModalOpen} 
+                onClose={handleCloseModal} 
+                onSubmit={handleGenerateSubmit}
+            />
         </div>
     );
 }

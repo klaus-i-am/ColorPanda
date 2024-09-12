@@ -4,10 +4,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+  
   html, body, :root {
-    height: 100vh;
-    overflow: hidden;
+    height: 100%;
   }
+  
+
   @layer base {
     :root {
       --background: background-image: url('/bg.png');

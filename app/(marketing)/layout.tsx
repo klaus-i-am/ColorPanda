@@ -3,17 +3,20 @@ import { Spinner } from "@/components/spinner";
 import { redirect } from "next/navigation";
 import { Navbar } from "./_components/navbar";
 import { Footer } from './_components/footer';
+import { usePathname } from 'next/navigation';
 
 const MarketingLayout = ({
   children
 }: {
   children: React.ReactNode;
 }) => {
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
 
   return ( 
-    <div className="dark:bg-[#1F1F1F]">
+    <div className={`h-screen ${isHomePage ? "bg-[url('/bg.png')] bg-cover bg-no-repeat bg-bottom bg-fixed" : ""}`}>
       <Navbar />
-      <main className="h-full">
+      <main className="">
         {children}
       </main>
     </div>

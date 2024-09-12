@@ -15,8 +15,8 @@ const nunito = Nunito({
 
 export const Heading = () => {
   return (
-    <div className=" max-h-[540px] w-full h-screen flex items-center justify-center align-center">
-      <Card className="max-h-[400px] max-w-[500px] shadow-lg">
+    <div className="flex mt-[5%] items-center justify-center">
+      <Card className="max-w-[500px] shadow-lg">
         <CardHeader>
           <CardTitle className={`flex justify-center items-center text-3xl text-gray-600 font-extrabold ${nunito.className} tracking-wide`}>
             <Image
