@@ -39,10 +39,10 @@ const ColorBox: React.FC<ColorBoxProps> = ({ color, hexToRGBA }) => (
       >
         {color.HTML_Color_Name}
       </h2>
-      <p className={`font-extrabold hover:bg-slate-200 hover:cursor-pointer py-1 tracking-wide ${nunito.className} text-xs my-1 text-gray-500 truncate`} title={color.Hex}>
+      <p className={`font-extrabold hover:bg-slate-200 hover:cursor-pointer py-1 font-header text-xs my-1 text-gray-500 truncate`} title={color.Hex}>
         {color.Hex}
       </p>
-      <p className={`font-extrabold hover:bg-slate-200 hover:cursor-pointer py-1 tracking-wide ${nunito.className} text-xs my-1 text-gray-500 truncate`} title={color.RGB}>
+      <p className={`font-extrabold hover:bg-slate-200 hover:cursor-pointer py-1 font-header text-xs my-1 text-gray-500 truncate`} title={color.RGB}>
         {color.RGB}
       </p>
     </div>

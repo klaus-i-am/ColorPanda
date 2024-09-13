@@ -2,9 +2,12 @@ import mongoose, { Schema } from 'mongoose';
 
 const colorSchema = new Schema(
     {
-        colorName: String,
-        hexValue: String,
-        rgbValue: String
+        paletteName: { type: String, default: 'Unnamed Palette' },
+        colors: [{
+            hexValue: { type: String, required: true },
+            rgbValue: String
+        }],
+        tags: [String]
     },
     { timestamps: true }
 );

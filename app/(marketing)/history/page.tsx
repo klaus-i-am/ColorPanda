@@ -1,41 +1,24 @@
-'use client';
-
-import { useSession, signIn } from "next-auth/react";
-import React, { useState } from 'react';
+// app/history/page.js
+import { Suspense } from 'react';
 import RecentlyGenerated from '../generate/_components/RecentlyGenerated';
-import {Button} from '@/components/ui/button';
-import { redirect } from "next/navigation";
-import Image from 'next/image';
-import Logo from '@/public/logo3.png';
-import { LoaderCircle } from "lucide-react";
 import { Nunito } from "next/font/google";
-
+import { LoaderCircle } from "lucide-react";
 
 const nunito = Nunito({
-    weight: ['400','500','600','700','800'],
-    subsets: ['latin'],
-    });
+  weight: ['400','500','600','700','800'],
+  subsets: ['latin'],
+});
 
-const History: React.FC = () => {
-    const { data: session, status } = useSession();
-    const [error, setError] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-
+export default function HistoryPage() {
   return (
-    <div className="flex">
-        <div className="flex justify-center flex-wrap">
-            {status === "loading" ? (
-                <div className="absolute z-50 ml-[100%] w-full h-screen mt-[40%] flex self-center justify-center items-center align-center">
-                    <LoaderCircle 
-                        className="w-10 h-10 rounded-full animate-spin flex justify-center items-center"
-                    />
-                </div>
-            ) : (
-                <RecentlyGenerated />
-            )}
+    <div className="flex justify-center flex-wrap">
+      <Suspense fallback={
+        <div className="absolute z-50 w-full h-screen flex justify-center items-center">
+          <LoaderCircle className="w-10 h-10 rounded-full animate-spin" />
         </div>
+      }>
+        <RecentlyGenerated />
+      </Suspense>
     </div>
   );
-};
-
-export default History;
+}
