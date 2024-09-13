@@ -34,6 +34,7 @@
     "framer-motion": "^11.5.4",
     "http-streaming-request": "^2.2.0",
     "lucide-react": "^0.376.0",
+    "mongoose": "^8.6.2",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
     "next-themes": "^0.3.0",

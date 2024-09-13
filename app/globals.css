@@ -9,6 +9,9 @@
     height: 100%;
   }
   
+  .generate-stop {
+    cursor: not-allowed;
+  }
 
   @layer base {
     :root {
