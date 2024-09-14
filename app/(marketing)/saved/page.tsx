@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { Nunito } from "next/font/google";
+import { LoaderCircle } from "lucide-react";
 import { SparklesIcon } from '@heroicons/react/24/outline';
-import { Nunito } from 'next/font/google';
 import Link from 'next/link';
 
 const nunito = Nunito({
-  weight: ['400', '500', '600', '700', '800'],
-  subsets: ['latin']
+  weight: ['400','500','600','700','800'],
+  subsets: ['latin'],
 });
 
 interface Palette {
@@ -16,7 +17,7 @@ interface Palette {
   colors: { hexValue: string; rgbValue: string }[];
 }
 
-export default function RecentlyGenerated() {
+export default function SavePage() {
   const [palettes, setPalettes] = useState<Palette[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -24,30 +25,39 @@ export default function RecentlyGenerated() {
   useEffect(() => {
     const fetchPalettes = async () => {
       try {
-        const response = await fetch('/api/colors');
+        const response = await fetch('/api/colors/saved');
         if (!response.ok) {
-          throw new Error('Failed to fetch palettes');
+          throw new Error('Failed to fetch saved palettes');
         }
         const data = await response.json();
+        console.log('Fetched palettes:', data);
         setPalettes(data.colors);
       } catch (err) {
+        console.error('Error fetching palettes:', err);
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
         setIsLoading(false);
       }
     };
-
+  
     fetchPalettes();
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (isLoading) {
+    return (
+      <div className="absolute z-50 w-full h-screen flex justify-center items-center">
+        <LoaderCircle className="w-10 h-10 rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
-    <div className='w-full pt-3 pb-8 mt-8 flex flex-col justify-center items-center rounded-2xl'>
-      <h2 className={`text-gray-800 font-bold ${nunito.className} text-3xl mb-6`}>
-        Recently Generated
-      </h2>
+    <div className={`flex flex-col items-center ${nunito.className}`}>
+      <h1 className="text-3xl font-bold mb-6">Saved Palettes</h1>
       <div className='w-[90%] flex flex-wrap gap-x-2 gap-y-2 justify-start items-center'>
         {palettes.map((palette) => (
           <Link href={`/palette/${palette._id}`} key={palette._id}>
@@ -76,7 +86,7 @@ export default function RecentlyGenerated() {
           </Link>
         ))}
         {palettes.length === 0 && (
-          <div className='text-gray-500'>No palettes available</div>
+          <div className='text-gray-500'>No saved palettes available</div>
         )}
       </div>
     </div>

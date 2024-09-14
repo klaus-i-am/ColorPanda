@@ -7,7 +7,8 @@ const colorSchema = new mongoose.Schema({
 
 const paletteSchema = new mongoose.Schema({
     paletteName: { type: String, required: true },
-    colors: [colorSchema]
+    colors: [colorSchema],
+    isSaved: { type: Boolean, default: true }
 }, { timestamps: true });
 
 const Color = mongoose.models.Color || mongoose.model('Color', paletteSchema);

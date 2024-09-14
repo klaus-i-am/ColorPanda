@@ -1,30 +1,19 @@
 import connectMongoDB from '@/lib/mongodb';
 import Color from '@/models/colors';
-import {NextResponse} from 'next/server';
+import { NextResponse } from 'next/server';
 
-// PUT
-export async function PUT(request, {params}) {
-    const {id} = params;
-    const {newColorName: colorName, newHexValue: hexValue, newRgbValue: rgbValue} = await request.json();
-    await connectMongoDB();
-    await Color.findByIdAndUpdate(id, {
-        colorName,
-        hexValue,
-        rgbValue,
-    });
-    return NextResponse.json({ 
-        message: 'Color updated successfully!',
-    },
-    {
-        status: 200,
-    });
-}
-
-// GET by ID
 export async function GET(request, { params }) {
-    const { id } = params;
-    await connectMongoDB();
-    const color = await Color.findOne({ _id: id });
+    try {
+        await connectMongoDB();
+        const palette = await Color.findById(params.id);
 
-    return NextResponse.json({ color }, { status: 200 })
+        if (!palette) {
+            return NextResponse.json({ error: 'Palette not found' }, { status: 404 });
+        }
+
+        return NextResponse.json({ palette });
+    } catch (error) {
+        console.error('Error fetching palette:', error);
+        return NextResponse.json({ error: 'Failed to fetch palette' }, { status: 500 });
+    }
 }

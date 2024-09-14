@@ -5,31 +5,21 @@ import { NextResponse } from 'next/server';
 export async function POST(request) {
     try {
         const body = await request.json();
-        console.log('Received data in API:', body);
+        console.log('Received data in API:', JSON.stringify(body, null, 2));
 
         const { paletteName, colors } = body;
         await connectMongoDB();
 
-        // Validate the data
-        if (!paletteName || !Array.isArray(colors) || colors.length === 0) {
-            console.log('Invalid data structure:', { paletteName, colors });
-            return NextResponse.json({ error: 'Invalid palette data' }, { status: 400 });
-        }
-
-        // Ensure each color has hexValue and rgbValue
-        const validColors = colors.every(color => color.hexValue && color.rgbValue);
-        if (!validColors) {
-            console.log('Invalid color data:', colors);
-            return NextResponse.json({ error: 'Invalid color data' }, { status: 400 });
-        }
-
         const newPalette = new Color({
             paletteName,
-            colors
+            colors,
+            isSaved: true
         });
 
+        console.log('New palette object:', JSON.stringify(newPalette, null, 2));
+
         const savedPalette = await newPalette.save();
-        console.log('Saved palette:', savedPalette);
+        console.log('Saved palette:', JSON.stringify(savedPalette, null, 2));
 
         return NextResponse.json({ message: 'Palette saved successfully', palette: savedPalette }, { status: 201 });
     } catch (error) {
