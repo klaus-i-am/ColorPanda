@@ -1,40 +1,65 @@
 // app/api/colors/route.js
 import connectMongoDB from '@/lib/mongodb';
 import Color from '@/models/colors';
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 
 export async function POST(request) {
-    const body = await request.json();
-    console.log('Received data:', JSON.stringify(body, null, 2));
+    console.log('POST request received');
+    let body;
+    try {
+        body = await request.json();
+        console.log('Received data:', JSON.stringify(body, null, 2));
+    } catch (error) {
+        console.error('Error parsing request body:', error);
+        return NextResponse.json({ error: 'Invalid JSON in request body' }, { status: 400 });
+    }
 
-    const { paletteName, colors, tags } = body;
-    await connectMongoDB();
+    const { paletteName, colors } = body;
 
-    if (!colors || colors.length < 1) {
-        return NextResponse.json({ error: 'At least one color is required' }, { status: 400 });
+    if (!paletteName || !Array.isArray(colors) || colors.length === 0) {
+        console.error('Invalid data structure:', JSON.stringify(body, null, 2));
+        return NextResponse.json({ error: 'Invalid data structure. paletteName and non-empty colors array are required.' }, { status: 400 });
     }
 
     try {
-        const newPalette = await Color.create({
+        await connectMongoDB();
+        console.log('Connected to MongoDB');
+
+        const newPalette = new Color({
             paletteName,
-            colors,
-            tags
+            colors
         });
 
-        console.log('Saved palette:', JSON.stringify(newPalette, null, 2));
+        console.log('New palette object created:', JSON.stringify(newPalette.toObject(), null, 2));
 
-        return NextResponse.json({ message: 'Color palette added successfully', palette: newPalette }, { status: 201 });
+        const savedPalette = await newPalette.save();
+        console.log('Palette saved successfully:', JSON.stringify(savedPalette.toObject(), null, 2));
+
+        return NextResponse.json({ 
+            message: 'Color palette added successfully', 
+            palette: savedPalette.toObject() 
+        }, { status: 201 });
     } catch (error) {
         console.error('Error saving palette:', error);
-        return NextResponse.json({ error: 'Failed to save color palette' }, { status: 500 });
+        if (error.name === 'ValidationError') {
+            console.error('Validation error details:', JSON.stringify(error.errors, null, 2));
+        }
+        return NextResponse.json({ error: 'Failed to save color palette', details: error.message }, { status: 500 });
     }
 }
-
 export async function GET() {
-    await connectMongoDB();
-    const palettes = await Color.find().sort({ createdAt: -1 }).limit(10);
-    console.log('Retrieved palettes:', JSON.stringify(palettes, null, 2));
-    return NextResponse.json({ colors: palettes });
+    try {
+        await connectMongoDB();
+        console.log('Connected to MongoDB');
+
+        const palettes = await Color.find().sort({ createdAt: -1 }).limit(10).lean();
+        console.log('Retrieved palettes:', JSON.stringify(palettes, null, 2));
+
+        return NextResponse.json({ colors: palettes });
+    } catch (error) {
+        console.error('Error retrieving palettes:', error);
+        return NextResponse.json({ error: 'Failed to retrieve color palettes', details: error.message }, { status: 500 });
+    }
 }
 // DELETE
 export async function DELETE(request) {
