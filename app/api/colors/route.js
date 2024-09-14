@@ -50,15 +50,11 @@ export async function POST(request) {
 export async function GET() {
     try {
         await connectMongoDB();
-        console.log('Connected to MongoDB');
-
         const palettes = await Color.find().sort({ createdAt: -1 }).limit(10).lean();
-        console.log('Retrieved palettes:', JSON.stringify(palettes, null, 2));
-
         return NextResponse.json({ colors: palettes });
     } catch (error) {
         console.error('Error retrieving palettes:', error);
-        return NextResponse.json({ error: 'Failed to retrieve color palettes', details: error.message }, { status: 500 });
+        return NextResponse.json({ error: 'Failed to retrieve color palettes' }, { status: 500 });
     }
 }
 // DELETE
