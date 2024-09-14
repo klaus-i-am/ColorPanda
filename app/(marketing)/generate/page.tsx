@@ -16,10 +16,10 @@ import Logo from '@/public/logo3.png';
 
 // ColorType interface//
 interface ColorType {
-  color: string;
-  name: string;
+  HTML_Color_Name: string;
+  Hex: string;
+  RGB: string;
 }
-
 const TrialPage: React.FC = () => {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
@@ -30,6 +30,7 @@ const TrialPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [savedPrompt, setSavedPrompt] = useState('');
   const [isAdjustingAll, setIsAdjustingAll] = useState(false);
+
 
   useEffect(() => {
     console.log('Session status:', status);
@@ -71,6 +72,40 @@ const TrialPage: React.FC = () => {
   const handleAdjustAllApply = (newColors: ColorType[]) => {
     setPalette(newColors);
   };
+  // Save Palette To Database
+  const savePaletteToDatabase = async (paletteName: string, colors: ColorType[]) => {
+    try {
+      console.log('Saving palette:', { paletteName, colors });
+      const formattedColors = colors.map(color => ({
+        hexValue: color.Hex,
+        rgbValue: color.RGB
+      }));
+      console.log('Formatted colors:', formattedColors);
+  
+      const response = await fetch('/api/colors/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paletteName,
+          colors: formattedColors
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Failed to save palette: ${JSON.stringify(errorData)}`);
+      }
+  
+      const data = await response.json();
+      console.log('Saved palette:', data.palette);
+    } catch (error) {
+      console.error('Error saving palette:', error);
+      setError('Failed to save palette to history');
+    }
+  };
+  // Generate Palette From Prompt
   const generatePalette = async (prompt: string) => {
     setIsLoading(true);
     try {
@@ -95,16 +130,20 @@ const TrialPage: React.FC = () => {
         setOriginalPalette(colorsArray);
         setSavedPrompt(prompt);
         setInput('');
+
+        // Save the generated palette to the database
+        await savePaletteToDatabase(prompt, colorsArray);
       } else {
         setError("Invalid palette data returned from API.");
       }
     } catch (err) {
       console.error('Error occurred:', err);
-      setError("Failed to generate the palette.");
+      setError("Failed to generate or save the palette.");
     } finally {
       setIsLoading(false);
     }
   };
+
   if (status === "loading") {
     return (
       <div className="z-50 w-full h-screen flex justify-center items-center">
@@ -116,6 +155,8 @@ const TrialPage: React.FC = () => {
   if (error) {
     return <div className="text-red-500">Error: {error}</div>;
   }
+
+
   return (
     <div className="flex flex-col items-center">
       {palette.length === 0 ? (
