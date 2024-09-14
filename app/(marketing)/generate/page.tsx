@@ -25,7 +25,6 @@ const TrialPage: React.FC = () => {
   const searchParams = useSearchParams();
   const [input, setInput] = useState('');
   const [palette, setPalette] = useState<ColorType[]>([]);
-
   const [originalPalette, setOriginalPalette] = useState<ColorType[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,12 +32,16 @@ const TrialPage: React.FC = () => {
   const [isAdjustingAll, setIsAdjustingAll] = useState(false);
 
   useEffect(() => {
+    console.log('Session status:', status);
+    console.log('Session data:', session);
+    console.log('Palette length:', palette.length);
+    
     const urlPrompt = searchParams.get('prompt');
     if (urlPrompt) {
       setInput(urlPrompt);
       generatePalette(urlPrompt);
     }
-  }, [searchParams]);
+  }, [searchParams, status, session]);
 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,60 +105,42 @@ const TrialPage: React.FC = () => {
       setIsLoading(false);
     }
   };
+  if (status === "loading") {
+    return (
+      <div className="z-50 w-full h-screen flex justify-center items-center">
+        <LoaderCircle className="w-10 h-10 rounded-full animate-spin" />
+      </div>
+    );
+  }
 
+  if (error) {
+    return <div className="text-red-500">Error: {error}</div>;
+  }
   return (
     <div className="flex flex-col items-center">
-
-      {status === "loading" ? (
-        <div className=" z-50 w-full h-screen mt-[40%] flex self-center justify-center items-center align-center">
-         <LoaderCircle 
-              className="w-10 h-10 rounded-full animate-spin flex justify-center items-center"
-          />
-        </div>
+      {palette.length === 0 ? (
+        <PaletteForm
+          input={input}
+          isLoading={isLoading}
+          handleInputChange={handleInputChange}
+          handleSubmit={handleSubmit}
+        />
       ) : (
         <>
-          {/* Palette Form */}
-          {palette.length === 0 && (
-            <>
-              <PaletteForm
-                input={input}
-                isLoading={isLoading}
-                handleInputChange={handleInputChange}
-                handleSubmit={handleSubmit}
-              />
-            </>
-          )}
-          
-          {/* if palette length is > 0 */}
-          {palette.length > 0 && (
-            <>
-            {/* Generate Palette  */}
-              <GeneratedPalette
-                savedPrompt={savedPrompt}
-                palette={palette}
-                handleAdjustAllColors={handleAdjustAllColors}
-                hexToRGBA={hexToRGBA}
-              />
-              {/* Share Palette */}
-              <SharePalette />
-    
-              {/* user signed in */}
-              {session && (
-                <RecentlyGenerated />
-              )}
-    
-              {/* Marketing here */}
-
-              
-              {/* user signed in  */}
-              {isAdjustingAll && (
-                <AdjustAllColorsModal
-                  colors={originalPalette}
-                  onClose={handleAdjustAllClose}
-                  onAdjustAll={handleAdjustAllApply}
-                />
-              )}
-            </>
+          <GeneratedPalette
+            savedPrompt={savedPrompt}
+            palette={palette}
+            handleAdjustAllColors={handleAdjustAllColors}
+            hexToRGBA={hexToRGBA}
+          />
+          <SharePalette />
+          {session && <RecentlyGenerated />}
+          {isAdjustingAll && (
+            <AdjustAllColorsModal
+              colors={originalPalette}
+              onClose={handleAdjustAllClose}
+              onAdjustAll={handleAdjustAllApply}
+            />
           )}
         </>
       )}

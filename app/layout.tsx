@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider"
 import { Inter } from "next/font/google";
 import { Nunito } from "next/font/google";
 import { Providers } from "./Providers";
+
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
