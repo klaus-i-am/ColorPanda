@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { SparklesIcon, HeartIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
+import { SparklesIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
+import { HeartIcon } from 'lucide-react'
 import ColorBox from './ColorBox';
 import { Nunito } from "next/font/google";
 
@@ -59,8 +60,19 @@ const GeneratedPalette: React.FC<GeneratedPaletteProps> = ({
             disabled={isSaved}
             className={`w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 ${isSaved ? 'bg-gray-300' : 'bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97]'} transition-all duration-300 outline-none focus:outline-0`}
           >
-            <HeartIcon className="w-6 h-6 mr-2 stroke-2" />
-            {isSaved ? 'Saved' : 'Save'}
+            
+            {isSaved ? (
+              <>
+                <HeartIcon fill="gray" className="w-6 h-6 mr-2 stroke-3" />  
+                Saved
+              </>
+            ) : 
+            (
+              <>
+              <HeartIcon className="w-6 h-6 mr-2 stroke-3" />  
+                Save
+              </>
+            )}
           </Button>
         </div>
       </div>

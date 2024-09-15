@@ -13,7 +13,12 @@ export const Upgrade = () => {
     return (
         <div className="hidden md:flex flex-col justify-start gap-x-2">
             <h2 className={`${nunito.className} font-normal text-slate-700`}>
-                Current Plan: <span className={cn`text-slate-500 ${nunito.className} font-normal tracking-wide `}>Free</span>
+                Current Plan: <span className={cn`text-slate-500 ${nunito.className} font-normal tracking-wide `}>Free
+                    <br/>
+                    <span className="text-sm">
+                        (2/5 generations remaining)
+                    </span>
+                </span>
             </h2>
             <Link href="/upgrade" className="text-sm text-blue-500 underline mt-1">
                     Upgrade Now

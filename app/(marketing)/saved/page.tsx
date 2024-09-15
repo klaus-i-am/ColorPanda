@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Nunito } from "next/font/google";
 import { LoaderCircle } from "lucide-react";
 import { SparklesIcon } from '@heroicons/react/24/outline';
+import { X } from 'lucide-react';
 import Link from 'next/link';
 
 const nunito = Nunito({
@@ -64,6 +65,7 @@ export default function SavePage() {
             <div className='relative flex flex-row justify-center items-center hover:scale-[.98] hover:cursor-pointer transition-all duration-300 rounded-xl'
               style={{ boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.3)' }}
             >
+              <X className='absolute right-2 top-2 bg-white/60 hover:bg-white/100 text-red-500 p-1 rounded-lg z-50 w-7 h-7 mr-2' />
               <div className='flex flex-row justify-center items-center rounded-xl w-[275px] h-[175px]'>
                 <div className='absolute flex flex-row h-full w-full'>
                   {palette.colors.map((color, index) => (
