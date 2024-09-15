@@ -14,12 +14,12 @@ import { redirect } from "next/navigation";
 import Image from 'next/image';
 import Logo from '@/public/logo3.png';
 
-// ColorType interface//
 interface ColorType {
   HTML_Color_Name: string;
   Hex: string;
   RGB: string;
 }
+
 const TrialPage: React.FC = () => {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
@@ -30,7 +30,6 @@ const TrialPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [savedPrompt, setSavedPrompt] = useState('');
   const [isAdjustingAll, setIsAdjustingAll] = useState(false);
-
 
   useEffect(() => {
     console.log('Session status:', status);
@@ -44,9 +43,8 @@ const TrialPage: React.FC = () => {
     }
   }, [searchParams, status, session]);
 
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.slice(0, 25); // Limit to 20 characters
+    const value = e.target.value.slice(0, 25);
     setInput(value);
   };
 
@@ -56,6 +54,7 @@ const TrialPage: React.FC = () => {
     const b = parseInt(hex.slice(5, 7), 16);
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     generatePalette(input);
@@ -72,7 +71,7 @@ const TrialPage: React.FC = () => {
   const handleAdjustAllApply = (newColors: ColorType[]) => {
     setPalette(newColors);
   };
-  // Save Palette To Database
+
   const savePaletteToDatabase = async (paletteName: string, colors: ColorType[]) => {
     try {
       console.log('Saving palette:', { paletteName, colors });
@@ -105,7 +104,7 @@ const TrialPage: React.FC = () => {
       setError('Failed to save palette to history');
     }
   };
-  // Generate Palette From Prompt
+
   const generatePalette = async (prompt: string) => {
     setIsLoading(true);
     try {
@@ -130,15 +129,13 @@ const TrialPage: React.FC = () => {
         setOriginalPalette(colorsArray);
         setSavedPrompt(prompt);
         setInput('');
-
-        // Save the generated palette to the database
-        await savePaletteToDatabase(prompt, colorsArray);
+        // Remove the automatic save here
       } else {
         setError("Invalid palette data returned from API.");
       }
     } catch (err) {
       console.error('Error occurred:', err);
-      setError("Failed to generate or save the palette.");
+      setError("Failed to generate the palette.");
     } finally {
       setIsLoading(false);
     }
@@ -156,7 +153,6 @@ const TrialPage: React.FC = () => {
     return <div className="text-red-500">Error: {error}</div>;
   }
 
-
   return (
     <div className="flex flex-col items-center">
       {palette.length === 0 ? (
@@ -173,6 +169,7 @@ const TrialPage: React.FC = () => {
             palette={palette}
             handleAdjustAllColors={handleAdjustAllColors}
             hexToRGBA={hexToRGBA}
+            savePaletteToDatabase={savePaletteToDatabase}
           />
           <SharePalette />
           {session && <RecentlyGenerated />}
