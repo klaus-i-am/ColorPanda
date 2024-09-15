@@ -6,6 +6,7 @@ import { LoaderCircle } from "lucide-react";
 import { SparklesIcon } from '@heroicons/react/24/outline';
 import { X } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const nunito = Nunito({
   weight: ['400','500','600','700','800'],
@@ -19,30 +20,53 @@ interface Palette {
 }
 
 export default function SavePage() {
+  const router = useRouter();
   const [palettes, setPalettes] = useState<Palette[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchPalettes = async () => {
-      try {
-        const response = await fetch('/api/colors/saved');
-        if (!response.ok) {
-          throw new Error('Failed to fetch saved palettes');
-        }
-        const data = await response.json();
-        console.log('Fetched palettes:', data);
-        setPalettes(data.colors);
-      } catch (err) {
-        console.error('Error fetching palettes:', err);
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      } finally {
-        setIsLoading(false);
+  const fetchPalettes = async () => {
+    try {
+      const response = await fetch('/api/colors/saved');
+      if (!response.ok) {
+        throw new Error('Failed to fetch saved palettes');
       }
-    };
-  
+      const data = await response.json();
+      console.log('Fetched palettes:', data);
+      setPalettes(data.colors);
+    } catch (err) {
+      console.error('Error fetching palettes:', err);
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchPalettes();
   }, []);
+
+  const DeleteBtn = async (id: string) => {
+    const confirmed = confirm('Are you sure you want to delete this palette?');
+    if (confirmed) {
+      try {
+        const res = await fetch(`/api/colors?id=${id}`, {
+          method: 'DELETE',
+        });
+
+        if (res.ok) {
+          // Remove the deleted palette from the local state
+          setPalettes(prevPalettes => prevPalettes.filter(palette => palette._id !== id));
+          console.log('Palette deleted successfully');
+        } else {
+          throw new Error('Failed to delete palette');
+        }
+      } catch (error) {
+        console.error('Error deleting palette:', error);
+        setError('Failed to delete palette. Please try again.');
+      }
+    }
+  }
 
   if (isLoading) {
     return (
@@ -60,12 +84,12 @@ export default function SavePage() {
     <div className={`flex flex-col items-center ${nunito.className}`}>
       <h1 className="text-3xl font-bold mb-6">Saved Palettes</h1>
       <div className='w-[90%] flex flex-wrap gap-x-2 gap-y-2 justify-start items-center'>
-        {palettes.map((palette) => (
-          <Link href={`/palette/${palette._id}`} key={palette._id}>
+      {palettes.map((palette) => (
+        <div key={palette._id} className="relative">
+          <Link href={`/palette/${palette._id}`}>
             <div className='relative flex flex-row justify-center items-center hover:scale-[.98] hover:cursor-pointer transition-all duration-300 rounded-xl'
               style={{ boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.3)' }}
             >
-              <X className='absolute right-2 top-2 bg-white/60 hover:bg-white/100 text-red-500 p-1 rounded-lg z-50 w-7 h-7 mr-2' />
               <div className='flex flex-row justify-center items-center rounded-xl w-[275px] h-[175px]'>
                 <div className='absolute flex flex-row h-full w-full'>
                   {palette.colors.map((color, index) => (
@@ -86,7 +110,15 @@ export default function SavePage() {
               </span>
             </div>
           </Link>
-        ))}
+          <X 
+            onClick={(e) => {
+              e.stopPropagation();
+              DeleteBtn(palette._id);
+            }}
+            className='absolute top-2 right-2 bg-white/60 hover:bg-white/100 text-red-500 p-1 rounded-lg z-50 w-7 h-7 cursor-pointer' 
+          />
+        </div>
+      ))}
         {palettes.length === 0 && (
           <div className='text-gray-500'>No saved palettes available</div>
         )}
