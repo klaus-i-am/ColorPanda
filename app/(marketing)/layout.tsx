@@ -23,6 +23,7 @@ const MarketingLayout = ({
       <main>
         {children}
       </main>
+      <Footer />
     </div>
    );
 }
