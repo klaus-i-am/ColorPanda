@@ -98,9 +98,12 @@ export default function PalettePage() {
   return (
     <div className={`flex flex-col items-center ${nunito.className} `}>
       <h1 className="text-3xl font-bold mb-6">{palette.paletteName}</h1>
-      <div className="w-full flex flex-wrap justify-center">
+      <div 
+        className="w-full flex flex-wrap justify-center" >
         {palette.colors.map((color, index) => (
-          <div key={index} className="flex flex-col items-center">
+          <div key={index} className="flex flex-col items-center rounded-3xl"
+          style={{ boxShadow: '0px 2px 20px rgba(0,0,0,0.5)' }}
+          >
             <div
               className={`w-48 h-[450px] rounded-lg flex flex-col relative px-5 ${
                 index === 0 
