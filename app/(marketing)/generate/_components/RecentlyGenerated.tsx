@@ -13,7 +13,7 @@ const nunito = Nunito({
 interface Palette {
   _id: string;
   paletteName: string;
-  colors: { hexValue: string; rgbValue: string }[];
+  colors: { colorName: string; hexValue: string; rgbValue: string }[];
 }
 
 export default function RecentlyGenerated() {

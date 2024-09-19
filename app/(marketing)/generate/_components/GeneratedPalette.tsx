@@ -1,46 +1,75 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from "@/components/ui/button";
-import { SparklesIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
-import { HeartIcon } from 'lucide-react'
+import { SparklesIcon, HeartIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
 import ColorBox from './ColorBox';
 import { Nunito } from "next/font/google";
+import { useRouter } from 'next/navigation';
 
 const nunito = Nunito({ 
     weight: ['800'],
     subsets: ['latin'],
 });
 
+interface ColorType {
+  color: string;
+  name: string;
+}
+
 interface GeneratedPaletteProps {
   savedPrompt: string;
   palette: ColorType[];
   handleAdjustAllColors: () => void;
   hexToRGBA: (hex: string, alpha: number) => string;
-  savePaletteToDatabase: (paletteName: string, colors: ColorType[]) => Promise<void>;
 }
 
-const GeneratedPalette: React.FC<GeneratedPaletteProps> = ({ 
-  savedPrompt, 
-  palette, 
-  handleAdjustAllColors, 
-  hexToRGBA,
-  savePaletteToDatabase
-}) => {
-  const [isSaved, setIsSaved] = useState(false);
+const GeneratedPalette: React.FC<GeneratedPaletteProps> = ({ savedPrompt, palette, handleAdjustAllColors, hexToRGBA }) => {
+  const router = useRouter();
 
   const handleSave = async () => {
-    if (isSaved) {
-      console.log('Palette already saved');
-      return;
-    }
-
     try {
-      await savePaletteToDatabase(savedPrompt, palette);
-      setIsSaved(true);
-      console.log('Palette saved successfully');
+      console.log('Palette to save:', palette);
+  
+      if (!palette || palette.length === 0) {
+        throw new Error('No palette data to save');
+      }
+  
+      const formattedColors = palette.map(color => ({
+        colorName: color.HTML_Color_Name,
+        hexValue: color.Hex,
+        rgbValue: color.RGB
+      }));
+      console.log("COLOR NAME: ",formattedColors);
+      
+      const response = await fetch('/api/colors/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paletteName: savedPrompt,
+          colors: formattedColors
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Failed to save palette: ${JSON.stringify(errorData)}`);
+      }
+  
+      const data = await response.json();
+      console.log('Saved palette response:', data);
+  
+      // Redirect to the save page after successful save
+      router.push('/saved');
     } catch (error) {
       console.error('Error saving palette:', error);
       // Handle error (e.g., show an error message to the user)
     }
+  };
+  const handleAdjust = () => {
+    handleAdjustAllColors();
+    // After adjusting, save the updated palette
+    handleSave();
   };
 
   return (
@@ -51,28 +80,13 @@ const GeneratedPalette: React.FC<GeneratedPaletteProps> = ({
           {savedPrompt}
         </h2>
         <div className="flex">
-          <Button onClick={handleAdjustAllColors} className='w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
+          <Button onClick={handleAdjust} className='w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
             <AdjustmentsHorizontalIcon className="w-6 h-6 mr-2 stroke-2" />
             Adjust
           </Button>
-          <Button 
-            onClick={handleSave} 
-            disabled={isSaved}
-            className={`w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 ${isSaved ? 'bg-gray-300' : 'bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97]'} transition-all duration-300 outline-none focus:outline-0`}
-          >
-            
-            {isSaved ? (
-              <>
-                <HeartIcon fill="gray" className="w-6 h-6 mr-2 stroke-3" />  
-                Saved
-              </>
-            ) : 
-            (
-              <>
-              <HeartIcon className="w-6 h-6 mr-2 stroke-3" />  
-                Save
-              </>
-            )}
+          <Button onClick={handleSave} className='w-full text-xl font-header font-bold mr-6 py-6 px-8 rounded-lg text-slate-600 bg-gray-200/50 hover:bg-gray-200/80 hover:scale-[.97] transition-all duration-300 outline-none focus:outline-0'>
+            <HeartIcon className="w-6 h-6 mr-2 stroke-2" />
+            Save
           </Button>
         </div>
       </div>

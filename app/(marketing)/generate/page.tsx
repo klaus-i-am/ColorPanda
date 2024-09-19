@@ -76,6 +76,7 @@ const TrialPage: React.FC = () => {
     try {
       console.log('Saving palette:', { paletteName, colors });
       const formattedColors = colors.map(color => ({
+        colorName: color.HTML_Color_Name,
         hexValue: color.Hex,
         rgbValue: color.RGB
       }));
