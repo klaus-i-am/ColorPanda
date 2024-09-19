@@ -22,7 +22,6 @@ interface Palette {
   paletteName: string;
   colors: Color[];
 }
-
 // Function to generate a simple color name based on hex value
 function generateColorName(hex: string): string {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -101,8 +100,8 @@ export default function PalettePage() {
       <div 
         className="w-full flex flex-wrap justify-center" >
         {palette.colors.map((color, index) => (
-          <div key={index} className="flex flex-col items-center rounded-3xl"
-          style={{ boxShadow: '0px 2px 20px rgba(0,0,0,0.5)' }}
+          <div key={index} className={`flex flex-col items-center rounded-3xl hover:shadow-[shadow-[0_50px_25px_-24px_${hexToRGBA(color.hexValue, 0.5)}]`}
+          style={{  boxShadow: `0px 8px 20px ${hexToRGBA(color.hexValue, 0.5)}`  }}
           >
             <div
               className={`w-48 h-[450px] rounded-lg flex flex-col relative px-5 ${
