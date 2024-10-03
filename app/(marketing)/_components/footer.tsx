@@ -11,7 +11,7 @@ const nunito = Nunito({
 
 export const Footer = () => {
     return ( 
-        <div className={`flex items-center w-full p-6 mt-[5%] text-white font-bold ${nunito.className}  bg-[#2d2d2d]`}>
+        <div className={`flex items-center w-full p-6 bottom-0 mt-[5%] text-white font-bold ${nunito.className}  bg-[#2d2d2d]`}>
             <Image 
                 src={PandaLogo}
                 width="40"

@@ -47,14 +47,7 @@ export const Heading = () => {
               </span>
             </Button>
           </Link>
-          <Link href="/sign-in" className="w-full">
-            <Button 
-              variant="outline"
-              className="w-full text-xl font-header tracking-wide font-bold py-6 px-8 rounded-xl text-gray-800 bg-white border-2 border-gray-800 hover:bg-gray-100 transition-all duration-300"
-            >
-              Explore
-            </Button>
-          </Link>
+          
         </CardFooter>
       </Card>
     </div>
