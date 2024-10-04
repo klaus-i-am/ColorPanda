@@ -11,7 +11,7 @@ const paletteSchema = new mongoose.Schema({
     colors: [colorSchema],
     isSaved: { type: Boolean, default: true }
 }, { timestamps: true });
-
+// Test
 const Color = mongoose.models.Color || mongoose.model('Color', paletteSchema);
 
 export default Color;
