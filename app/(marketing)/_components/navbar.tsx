@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useCallback } from 'react';
 import { useScrollTop } from "@/hooks/use-scroll-top";
 import { cn } from "@/lib/utils";
@@ -39,6 +41,10 @@ export const Navbar = () => {
     }, [router]);
 
     const renderAuthButton = () => {
+        if (status === "loading") {
+            return <div>Loading...</div>; // Or a loading spinner
+        }
+
         if (!session) {
             return (
                 <Link href="/sign-in">
@@ -72,6 +78,10 @@ export const Navbar = () => {
     };
 
     const renderUserMenu = () => {
+        if (status === "loading") {
+            return <div>Loading...</div>; // Or a loading spinner
+        }
+
         if (!session) return null;
         return (
             <DropdownMenu>
@@ -127,15 +137,17 @@ export const Navbar = () => {
                 <Logo />
                 <div className="md:ml-auto md:justify-end flex justify-between items-center gap-x-2">
                     {renderAuthButton()}
-                    <Button
-                        size="sm"
-                        className={`w-full text-sm ${nunito.className} font-bold rounded-lg p-4 text-white outline-0 bg-[#37474f]`}
-                        style={{ boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)" }}
-                        onClick={handleOpenModal}
-                    >
-                        <Plus className="mr-2 h-4 w-4 text-white" size={28} strokeWidth={3} />
-                        New
-                    </Button>
+                    {session && (
+                        <Button
+                            size="sm"
+                            className={`w-full text-sm ${nunito.className} font-bold rounded-lg p-4 text-white outline-0 bg-[#37474f]`}
+                            style={{ boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3)" }}
+                            onClick={handleOpenModal}
+                        >
+                            <Plus className="mr-2 h-4 w-4 text-white" size={28} strokeWidth={3} />
+                            New
+                        </Button>
+                    )}
                     {renderUserMenu()}
                 </div>
             </div>
