@@ -72,16 +72,17 @@ const TrialPage: React.FC = () => {
     setPalette(newColors);
   };
 
-  const savePaletteToDatabase = async (paletteName: string, colors: ColorType[]) => {
+  const savePaletteToDatabase = async (userId: string, paletteName: string, colors: ColorType[]) => {
     try {
       console.log('Saving palette:', { paletteName, colors });
       const formattedColors = colors.map(color => ({
-        colorName: color.HTML_Color_Name,
-        hexValue: color.Hex,
-        rgbValue: color.RGB
+        colorName: color.colorName,
+        hexValue: color.hexValue,
+        rgbValue: color.rgbValue
       }));
       console.log('Formatted colors:', formattedColors);
   
+      // Save the new palette to the database
       const response = await fetch('/api/colors/save', {
         method: 'POST',
         headers: {
@@ -89,7 +90,8 @@ const TrialPage: React.FC = () => {
         },
         body: JSON.stringify({
           paletteName,
-          colors: formattedColors
+          colors: formattedColors,
+          userId // Include the userId in the request body
         }),
       });
   
@@ -100,6 +102,22 @@ const TrialPage: React.FC = () => {
   
       const data = await response.json();
       console.log('Saved palette:', data.palette);
+  
+      // Update the user's document to include the new palette ID
+      const userResponse = await fetch(`/api/users/${userId}/addPalette`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ paletteId: data.palette._id }),
+      });
+  
+      if (!userResponse.ok) {
+        const errorData = await userResponse.json();
+        throw new Error(`Failed to update user: ${JSON.stringify(errorData)}`);
+      }
+  
+      console.log('User updated with new palette');
     } catch (error) {
       console.error('Error saving palette:', error);
       setError('Failed to save palette to history');

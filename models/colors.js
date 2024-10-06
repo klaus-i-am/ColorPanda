@@ -6,12 +6,6 @@ const colorSchema = new mongoose.Schema({
     rgbValue: { type: String, required: true }
 });
 
-const paletteSchema = new mongoose.Schema({
-    paletteName: { type: String, required: true },
-    colors: [colorSchema],
-    isSaved: { type: Boolean, default: true }
-}, { timestamps: true });
-// Test
-const Color = mongoose.models.Color || mongoose.model('Color', paletteSchema);
+const Color = mongoose.models.Color || mongoose.model('Color', colorSchema);
 
 export default Color;

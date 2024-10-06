@@ -25,6 +25,7 @@ const SharePalette: React.FC = () => {
 
   useEffect(() => {
     const fetchPalette = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(`/api/colors/${params.id}`);
         if (!response.ok) {
@@ -66,13 +67,13 @@ const SharePalette: React.FC = () => {
     return 'Mixed Shade';
   }
 
-  if (isLoading) {
-    return (
-      <div className="absolute z-50 w-full h-screen flex justify-center items-center">
-        <LoaderCircle className="w-10 h-10 rounded-full animate-spin" />
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="absolute z-50 w-full h-screen flex justify-center items-center">
+  //       <LoaderCircle className="w-10 h-10 rounded-full animate-spin" />
+  //     </div>
+  //   );
+  // }
 
   if (error) {
     return <div>Error: {error}</div>;

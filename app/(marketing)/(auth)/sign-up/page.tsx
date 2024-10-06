@@ -27,7 +27,7 @@ export default function SignUpPage() {
       if (result?.error) {
         setError(result.error);
       } else {
-        router.push('/generate'); // Redirect to dashboard on successful login
+        router.push('/generate'); 
       }
   };
 

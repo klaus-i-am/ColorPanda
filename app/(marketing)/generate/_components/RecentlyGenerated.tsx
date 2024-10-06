@@ -72,7 +72,6 @@ export default function RecentlyGenerated() {
                 <SparklesIcon className='w-5 h-5 mr-2'/>
                 {palette.paletteName || 'Unnamed Palette'}
               </span>
-              
             </div>
           </Link>
         ))}

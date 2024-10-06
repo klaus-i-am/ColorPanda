@@ -14,7 +14,7 @@ const nunito = Nunito({
 interface Color {
   hexValue: string;
   rgbValue: string;
-  HTML_Color_Name?: string; // Make this optional
+  HTML_Color_Name?: string; 
 }
 
 interface Palette {
@@ -22,7 +22,6 @@ interface Palette {
   paletteName: string;
   colors: Color[];
 }
-// Function to generate a simple color name based on hex value
 function generateColorName(hex: string): string {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);

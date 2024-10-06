@@ -23,9 +23,9 @@ const MarketingLayout = ({
   }
 
   // if user is already logged in, redirect to history page
-  if (session) {
-    router.push('/history');
-  }
+  // if (session) {
+  //   router.push('/generate');
+  // }
 
   return ( 
     <div className={`h-screen ${isHomePage ? "bg-[url('/bg.png')] bg-cover bg-no-repeat bg-bottom bg-fixed" : ""}`}>

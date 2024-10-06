@@ -34,7 +34,8 @@ export async function POST(req: Request) {
     }
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4",
+      // got-4 -> originally used 
+      model: "gpt-4o",
       messages: [
         {
           "role": "system",

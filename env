@@ -1,0 +1,21 @@
+
+# mongodb
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.xi2ti.mongodb.net/<db_name>?retryWrites=true&w=majority&appName=Cluster0
+
+# OPENAI API
+OPENAI_API_KEY=
+
+
+# NEXTAUTH -> change for production
+NEXTAUTH_URL=localhost:3000
+NEXTAUTH_SECRET=
+# github 
+GITHUB_SECRET=
+GITHUB_ID=
+
+# google 
+GOOGLE_SECRET=
+GOOGLE_ID=
+
+
+# if mongodb error check if password meets the password requirements (length, complexity and no special symbols)
