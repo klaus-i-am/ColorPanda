@@ -6,9 +6,18 @@ import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Nunito } from "next/font/google";
+import Link from "next/link";
+
+
+const nunito = Nunito({ 
+  weight: ['400','500','600','700','800'],
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
+  const [enail, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -16,35 +25,22 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-
-    const result = await signIn('credentials', {
-      username,
-      password,
-      redirect: false,
-    });
-
-    if (result?.error) {
-      setError(result.error);
-      router.push('/');
-    } else {
-      router.push('/generate'); // Redirect to dashboard on successful login
-    }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-white">
       <Card className="w-full max-w-md mt-[-7%]">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">Login</CardTitle>
+          <CardTitle className={`text-2xl font-bold ${nunito.className} text-center`}>Login</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          {/* <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <Input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                type="email"
+                placeholder="you@awesome.com"
+                value={ElementInternals}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
@@ -61,14 +57,21 @@ export default function LoginPage() {
             <Button type="submit" className="w-full">
               Sign In
             </Button>
-          </form>
+          </form> */}
         </CardContent>
-        <CardFooter>
+        <CardFooter className='flex flex-col'>
           <Button
             onClick={() => signIn('github', { callbackUrl: '/generate' })}
             className="w-full bg-gray-800 hover:bg-gray-700"
           >
             Sign in with GitHub
+          </Button>
+          <br/>
+          <Button
+            onClick={() => signIn('google', { callbackUrl: '/generate' })}
+            className="w-full bg-gray-800 hover:bg-gray-700"
+          >
+            Sign in with Google
           </Button>
         </CardFooter>
       </Card>

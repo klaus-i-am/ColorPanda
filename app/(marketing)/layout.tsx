@@ -4,6 +4,7 @@ import { Navbar } from "./_components/navbar";
 import { Footer } from './_components/footer';
 import { usePathname } from 'next/navigation';
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React from 'react';
 
 const MarketingLayout = ({
@@ -12,12 +13,18 @@ const MarketingLayout = ({
   children: React.ReactNode;
 }) => {
   
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   const pathname = usePathname();
   const isHomePage = pathname === '/';
+  const router = useRouter();
 
   if (status === "loading") {
     return <Spinner />;
+  }
+
+  // if user is already logged in, redirect to history page
+  if (session) {
+    router.push('/history');
   }
 
   return ( 

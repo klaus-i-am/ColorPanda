@@ -21,7 +21,7 @@ export const Footer = () => {
             />
             <h3 className={`w-[300px] font-bold ${nunito.className}`}>
                 {`Made with <3 by `}
-                <a href="https://www.linkedin.com/in/jackson-kim-3318821a5/" target="_blank" rel="noopener noreferrer"
+                <a href="https://x.com/dev_klaus" target="_blank" rel="noopener noreferrer"
                     className="text-blue-500 underline"
                 >
                     @klaus_dev
